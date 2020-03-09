@@ -1,6 +1,5 @@
 package com.slava0135.pixelparty.desktop;
 
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.slava0135.pixelparty.PixelGame;
