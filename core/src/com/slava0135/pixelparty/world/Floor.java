@@ -1,10 +1,8 @@
 package com.slava0135.pixelparty.world;
 
-import com.badlogic.gdx.utils.Array;
-
 public class Floor {
     static final int size = 16;
-    Pallete[][] grid;
+    final public Pallete[][] grid;
 
     Floor() {
         grid = new Pallete[][]{};
@@ -14,6 +12,17 @@ public class Floor {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 grid[i][j] = Pallete.randomColor();
+            }
+        }
+    }
+
+    public void leaveOne() {
+        Pallete color = Pallete.randomColor();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (grid[i][j] != color) {
+                    grid[i][j] = null;
+                }
             }
         }
     }
