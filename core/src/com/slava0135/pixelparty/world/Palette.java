@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public enum Pallete {
+public enum Palette {
     WHITE(Color.WHITE),
     BLACK(Color.BLACK),
     GRAY(Color.GRAY),
@@ -24,15 +24,15 @@ public enum Pallete {
     TEAL(Color.TEAL);
 
     Color color;
-    Pallete(Color color) {
+    Palette(Color color) {
         this.color = color;
     }
 
-    private static final List<Pallete> VALUES =
+    private static final List<Palette> VALUES =
             Collections.unmodifiableList(Arrays.asList(values()));
     private static final int SIZE = VALUES.size();
     private static final Random RANDOM = new Random();
-    public static Pallete randomColor()  {
+    public static Palette randomColor()  {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 
