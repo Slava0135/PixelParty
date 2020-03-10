@@ -10,12 +10,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.slava0135.pixelparty.world.Floor;
+import com.slava0135.pixelparty.world.Palette;
 
 import java.util.Random;
 
 public class GameScreen implements Screen {
-    final static private Color background = Color.WHITE;
-    final static private int unitRadius = 20; //pixels
+    final static Color background = Color.WHITE;
+    final static int unitRadius = 20; //pixels
+    final static int scale = 50; //1 tile length
     //rendering
     final PixelGame game;
     OrthographicCamera camera;
@@ -50,8 +52,8 @@ public class GameScreen implements Screen {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
         fixtureDef.density = 0.5f;
-        fixtureDef.friction = 0.4f;
-        fixtureDef.restitution = 0.6f;
+        fixtureDef.friction = 0;
+        fixtureDef.restitution = 0;
         bodies = new Array<>();
         for (int i = 0; i < unitAmount; i++) {
             bodyDef.position.set(100 + random.nextInt(800), 100 + random.nextInt(800));
@@ -60,6 +62,8 @@ public class GameScreen implements Screen {
             bodies.add(body);
         }
         circle.dispose();
+
+        floor.generateFloor();
     }
 
     @Override
@@ -68,13 +72,27 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
+        Palette[][] grid = floor.getGrid();
+        for (int i = 0; i < Floor.size; i++) {
+            for (int j = 0; j < Floor.size; j++) {
+                Palette color = grid[i][j];
+                if (color != null) {
+                    shapeRenderer.setColor(color.color);
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.rect(100 + i * scale, 100 + j * scale, scale, scale);
+                    shapeRenderer.end();
+                }
+            }
+        }
         for (Body body: bodies) {
             Vector2 vector = body.getPosition();
-            shapeRenderer.setColor(Color.GOLD);
+            shapeRenderer.setColor(Color.BLACK);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.circle(vector.x, vector.y, unitRadius);
             shapeRenderer.end();
         }
+        floor.generateFloor();
+        floor.round();
         //movement
         time += delta;
         world.step(1/60f, 6, 2);

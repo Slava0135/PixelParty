@@ -9,7 +9,6 @@ import java.util.Random;
 
 public enum Palette {
     //WHITE(Color.WHITE), is background (null)
-    BLACK(Color.BLACK),
     GRAY(Color.GRAY),
     LIME(Color.LIME),
     RED(Color.RED),
@@ -23,7 +22,7 @@ public enum Palette {
     CYAN(Color.CYAN),
     TEAL(Color.TEAL);
 
-    Color color;
+    public Color color;
     Palette(Color color) {
         this.color = color;
     }

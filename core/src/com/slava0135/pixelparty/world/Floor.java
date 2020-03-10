@@ -1,10 +1,11 @@
 package com.slava0135.pixelparty.world;
 
 import com.badlogic.gdx.graphics.Color;
+import org.graalvm.compiler.lir.phases.PostAllocationOptimizationPhase;
 
 public class Floor {
-    static final int size = 16;
-    final public Palette[][] grid = new Palette[size][size];
+    final public static int size = 16;
+    final private Palette[][] grid = new Palette[size][size];
 
     public void generateFloor() {
         for (int i = 0; i < size; i++) {
@@ -23,5 +24,13 @@ public class Floor {
                 }
             }
         }
+    }
+
+    public Palette[][] getGrid() {
+        Palette[][] newGrid = new Palette[size][size];
+        for (int i = 0; i < size; i++) {
+            newGrid[i] = grid[(size - 1) - i];
+        }
+        return newGrid;
     }
 }
