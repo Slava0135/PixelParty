@@ -5,17 +5,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+import java.util.Random;
+
 public class MainMenuScreen implements Screen {
 
     final PixelGame game;
-
     OrthographicCamera camera;
+    private final Random random = new Random();
 
     public MainMenuScreen(final PixelGame game) {
         this.game = game;
-
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, 1000, 1000);
     }
 
     @Override
@@ -24,19 +25,18 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor(1, 1, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
-
         game.batch.begin();
-        game.font.draw(game.batch, "Welcome to Pixel Party!", 100, 150);
-        game.font.draw(game.batch, "Press anywhere to begin!", 100, 100);
+        game.font.draw(game.batch, "Welcome to Pixel Party!", 300, 400);
+        game.font.draw(game.batch, "Press anywhere to begin!", 300, 300);
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen(game, 50));
             dispose();
         }
     }

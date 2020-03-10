@@ -1,12 +1,10 @@
 package com.slava0135.pixelparty.world;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class Floor {
     static final int size = 16;
-    final public Palette[][] grid;
-
-    Floor() {
-        grid = new Palette[][]{};
-    }
+    final public Palette[][] grid = new Palette[][]{};
 
     public void generateFloor() {
         for (int i = 0; i < size; i++) {
@@ -16,7 +14,7 @@ public class Floor {
         }
     }
 
-    public void leaveOne() {
+    public void round() {
         Palette color = Palette.randomColor();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {

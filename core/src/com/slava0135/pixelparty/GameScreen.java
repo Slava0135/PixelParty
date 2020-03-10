@@ -2,31 +2,70 @@ package com.slava0135.pixelparty;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
+import com.slava0135.pixelparty.world.Floor;
+
+import java.util.Random;
 
 public class GameScreen implements Screen {
+
+    final private int unitRadius = 20; //pixels
 
     final PixelGame game;
     OrthographicCamera camera;
     World world;
-    Texture unit;
+    Random random = new Random();
+    Color background = Color.WHITE;
+    Floor floor;
+    //timing
+    float time;
+    float roundTime = 5;
+    float interruptionTime = 5;
+    float runTime = 5;
+    //staging
+    boolean isRun = false;
+    boolean isBreak = false;
 
-    public GameScreen(final PixelGame game) {
+    public GameScreen(final PixelGame game, int unitAmount) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, 1000, 1000);
+        world = new World(new Vector2(0, 0),false);
+        floor = new Floor();
+        time = 0;
+        //spawn units
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        CircleShape circle = new CircleShape();
+        circle.setRadius(unitRadius);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circle;
+        fixtureDef.density = 0.5f;
+        fixtureDef.friction = 0.4f;
+        fixtureDef.restitution = 0.6f;
+        for (int i = 0; i < unitAmount; i++) {
+            bodyDef.position.set(100 + random.nextInt(800), 100 + random.nextInt(800));
+            Body body = world.createBody(bodyDef);
+            Fixture fixture = body.createFixture(fixtureDef);
+        }
+        circle.dispose();
     }
+
+    Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
     @Override
     public void render(float delta) {
-
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        //graphics
+        Gdx.gl.glClearColor(1,1,1,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
-
+        time += delta;
+        debugRenderer.render(world, camera.combined);
+        world.step(1/60f, 6, 2);
     }
 
     @Override
@@ -52,6 +91,5 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         world.dispose();
-        unit.dispose();
     }
 }
