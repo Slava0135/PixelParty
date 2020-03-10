@@ -5,8 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.slava0135.pixelparty.world.Floor;
 
 import java.util.Random;
@@ -21,6 +23,8 @@ public class GameScreen implements Screen {
     Random random = new Random();
     Color background = Color.WHITE;
     Floor floor;
+    Array<Body> bodies;
+    ShapeRenderer shapeRenderer;
     //timing
     float time;
     float roundTime = 5;
@@ -36,6 +40,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, 1000, 1000);
         world = new World(new Vector2(0, 0),false);
         floor = new Floor();
+        shapeRenderer = new ShapeRenderer();
         time = 0;
         //spawn units
         BodyDef bodyDef = new BodyDef();
@@ -47,10 +52,12 @@ public class GameScreen implements Screen {
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0.4f;
         fixtureDef.restitution = 0.6f;
+        bodies = new Array<>();
         for (int i = 0; i < unitAmount; i++) {
             bodyDef.position.set(100 + random.nextInt(800), 100 + random.nextInt(800));
             Body body = world.createBody(bodyDef);
             Fixture fixture = body.createFixture(fixtureDef);
+            bodies.add(body);
         }
         circle.dispose();
     }
@@ -63,8 +70,14 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1,1,1,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
+        for (Body body: bodies) {
+            Vector2 vector = body.getPosition();
+            shapeRenderer.setColor(Color.GOLD);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.circle(vector.x, vector.y, unitRadius);
+            shapeRenderer.end();
+        }
         time += delta;
-        debugRenderer.render(world, camera.combined);
         world.step(1/60f, 6, 2);
     }
 
