@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Floor {
     static final int size = 16;
-    final public Palette[][] grid = new Palette[][]{};
+    final public Palette[][] grid = new Palette[size][size];
 
     public void generateFloor() {
         for (int i = 0; i < size; i++) {

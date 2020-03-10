@@ -14,17 +14,17 @@ import com.slava0135.pixelparty.world.Floor;
 import java.util.Random;
 
 public class GameScreen implements Screen {
-
-    final private int unitRadius = 20; //pixels
-
+    final static private Color background = Color.WHITE;
+    final static private int unitRadius = 20; //pixels
+    //rendering
     final PixelGame game;
     OrthographicCamera camera;
+    ShapeRenderer shapeRenderer;
+    //data
     World world;
     Random random = new Random();
-    Color background = Color.WHITE;
     Floor floor;
     Array<Body> bodies;
-    ShapeRenderer shapeRenderer;
     //timing
     float time;
     float roundTime = 5;
@@ -62,12 +62,10 @@ public class GameScreen implements Screen {
         circle.dispose();
     }
 
-    Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
-
     @Override
     public void render(float delta) {
         //graphics
-        Gdx.gl.glClearColor(1,1,1,0);
+        Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         for (Body body: bodies) {
@@ -77,6 +75,7 @@ public class GameScreen implements Screen {
             shapeRenderer.circle(vector.x, vector.y, unitRadius);
             shapeRenderer.end();
         }
+        //movement
         time += delta;
         world.step(1/60f, 6, 2);
     }
