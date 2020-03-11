@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.graalvm.compiler.lir.phases.PostAllocationOptimizationPhase;
 
 public class Floor {
-    final public static int size = 16;
+    final private static int size = 16;
     final private Palette[][] grid = new Palette[size][size];
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -30,7 +30,7 @@ public class Floor {
     }
 
     public void draw(int x, int y, int scale) {
-        for (int i = 0; i < Floor.size; i++) {
+        for (int i = Floor.size - 1; i >= 0; i--) { //from "up to down" to "down to up"
             for (int j = 0; j < Floor.size; j++) {
                 Palette color = grid[i][j];
                 if (color != null) {
@@ -41,13 +41,5 @@ public class Floor {
                 }
             }
         }
-    }
-
-    public Palette[][] getGrid() {
-        Palette[][] newGrid = new Palette[size][size];
-        for (int i = 0; i < size; i++) {
-            newGrid[i] = grid[(size - 1) - i];
-        }
-        return newGrid;
     }
 }

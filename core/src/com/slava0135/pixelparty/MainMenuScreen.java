@@ -2,6 +2,7 @@ package com.slava0135.pixelparty;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
@@ -31,8 +32,9 @@ public class MainMenuScreen implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.font.draw(game.batch, "Welcome to Pixel Party!", 300, 400);
-        game.font.draw(game.batch, "Press anywhere to begin!", 300, 300);
+        game.font.setColor(Color.BLACK);
+        game.font.draw(game.batch, "Welcome to Pixel Party!", 400, 525);
+        game.font.draw(game.batch, "Press anywhere to begin!", 400, 475);
         game.batch.end();
 
         if (Gdx.input.isTouched()) {

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class PixelGame extends Game {
 
-	final static private Color background = Color.WHITE;
 	public SpriteBatch batch;
 	public BitmapFont font;
 
