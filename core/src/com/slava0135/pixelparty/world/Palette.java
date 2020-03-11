@@ -8,23 +8,25 @@ import java.util.List;
 import java.util.Random;
 
 public enum Palette {
-    //WHITE(Color.WHITE), is background (null)
-    GRAY(Color.GRAY),
-    LIME(Color.LIME),
-    RED(Color.RED),
-    ORANGE(Color.ORANGE),
-    YELLOW(Color.YELLOW),
-    GREEN(Color.GREEN),
-    PURPLE(Color.PURPLE),
-    PINK(Color.PINK),
-    BLUE(Color.BLUE),
-    BROWN(Color.BROWN),
-    CYAN(Color.CYAN),
-    TEAL(Color.TEAL);
+    //WHITE(Color.WHITE, "White"), is background (null)
+    GRAY(Color.GRAY, "Gray"),
+    LIME(Color.LIME, "Lime"),
+    RED(Color.RED, "Red"),
+    ORANGE(Color.ORANGE, "Orange"),
+    YELLOW(Color.YELLOW, "Yellow"),
+    GREEN(Color.GREEN, "Green"),
+    PURPLE(Color.PURPLE, "Purple"),
+    PINK(Color.PINK, "Pink"),
+    BLUE(Color.BLUE, "Blue"),
+    BROWN(Color.BROWN, "Brown"),
+    CYAN(Color.CYAN, "Cyan"),
+    TEAL(Color.TEAL, "Teal");
 
     public Color color;
-    Palette(Color color) {
+    public String name;
+    Palette(Color color, String name) {
         this.color = color;
+        this.name = name;
     }
 
     private static final List<Palette> VALUES =

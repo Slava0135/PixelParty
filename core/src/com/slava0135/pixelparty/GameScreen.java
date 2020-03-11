@@ -64,7 +64,7 @@ public class GameScreen implements Screen {
             shapeRenderer.circle(vector.x, vector.y, unitRadius);
             shapeRenderer.end();
         }
-        //testing...
+
         floor.generateFloor();
         floor.round();
 
