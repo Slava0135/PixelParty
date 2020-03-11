@@ -19,7 +19,8 @@ public class GameScreen implements Screen {
     final static Color background = Color.WHITE;
     final static int unitRadius = 15; //pixels
     final static int scale = 50; //1 tile length
-    double speedMultiplier = 0.9;
+    double speedMultiplier = 1.2;
+    double maxVelocity = 100;
     //rendering
     final PixelGame game;
     OrthographicCamera camera;
@@ -28,7 +29,7 @@ public class GameScreen implements Screen {
     Random random = new Random();
     World world;
     Floor floor = new Floor();
-    Array<Body> bodies;
+    Array<Body> bodies = new Array<>();
     //timing
     double time = 0;
     //staging
@@ -77,6 +78,8 @@ public class GameScreen implements Screen {
                 if (time > Stage.length) {
                     time = 0;
                     stage = stage.next();
+                } else {
+                    randomMove();
                 }
                 break;
             }
@@ -85,6 +88,8 @@ public class GameScreen implements Screen {
                     time = 0;
                     stage = stage.next();
                     floor.throwFloor();
+                } else {
+                    saveMove();
                 }
                 break;
             }
@@ -92,9 +97,11 @@ public class GameScreen implements Screen {
                 if (time > Stage.length) {
                     time = 0;
                     stage = stage.next();
-                    Stage.length *= speedMultiplier;
+                    Stage.length /= speedMultiplier;
+                    maxVelocity *= speedMultiplier;
                     floor.generateFloor();
                 } else {
+                    saveMove();
                     eliminate();
                 }
                 break;
@@ -113,7 +120,6 @@ public class GameScreen implements Screen {
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0;
         fixtureDef.restitution = 0;
-        bodies = new Array<>();
         for (int i = 0; i < amount; i++) {
             bodyDef.position.set(100 + random.nextInt(800), 100 + random.nextInt(800));
             Body body = world.createBody(bodyDef);
@@ -121,6 +127,40 @@ public class GameScreen implements Screen {
             bodies.add(body);
         }
         circle.dispose();
+    }
+
+    private void randomMove() {
+        for (Body body: bodies) {
+            body.applyLinearImpulse(
+                    random.nextInt(100000) - 50000,
+                    random.nextInt(100000) - 50000,
+                    body.getPosition().x,
+                    body.getPosition().y,
+                    true);
+        }
+    }
+
+    private void saveMove() {
+        int impulse = 50000;
+        for (Body body: bodies) {
+            double velX = body.getLinearVelocity().x;
+            double velY = body.getLinearVelocity().y;
+            float x = (body.getPosition().x - 100) / scale;
+            float y = (body.getPosition().y - 100) / scale;
+            Vector2 vector = floor.findNearest(x, y);
+            if (vector.x > x && velX < maxVelocity) {
+                body.applyLinearImpulse(impulse, 0, x, y, true);
+            }
+            if (vector.x < x && velX > -maxVelocity) {
+                body.applyLinearImpulse(-impulse, 0, x, y,true);
+            }
+            if (vector.y > y && velY < maxVelocity) {
+                body.applyLinearImpulse(0, impulse, x, y,true);
+            }
+            if (vector.y < y && velY > -maxVelocity) {
+                body.applyLinearImpulse(0, -impulse, x, y,true);
+            }
+        }
     }
 
     private void eliminate() {

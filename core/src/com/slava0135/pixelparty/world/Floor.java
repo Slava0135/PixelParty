@@ -57,14 +57,15 @@ final public class Floor {
     }
 
     public Vector2 findNearest(double gridX, double gridY) {
-        double minDist = 10000000;
+        double minDist = 100000000;
         Vector2 vector = new Vector2(-1, -1);
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 if (grid[x][y] == currentColor) {
                     double newDist = vector.dst2(x, y);
                     if (newDist < minDist) {
-                        vector = new Vector2(x, y);
+                        vector = new Vector2(x + 0.5f, y + 0.5f);
+                        minDist = newDist;
                     }
                 }
             }
