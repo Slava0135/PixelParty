@@ -62,7 +62,7 @@ final public class Floor {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 if (grid[y][x] == currentColor) {
-                    double newDist = vector.dst2(x, y);
+                    double newDist = (x + 0.5 - gridX) * (x + 0.5 - gridX) + (y + 0.5 - gridY) * (y + 0.5 - gridY);
                     if (newDist < minDist) {
                         vector = new Vector2(x + 0.5f, y + 0.5f);
                         minDist = newDist;

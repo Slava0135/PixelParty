@@ -19,7 +19,7 @@ public class GameScreen implements Screen {
     final static Color background = Color.WHITE;
     final static int unitRadius = 15; //pixels
     final static int scale = 50; //1 tile length
-    double speedMultiplier = 1.2;
+    double speedMultiplier = 1.1;
     double maxVelocity = 100;
     //rendering
     final PixelGame game;
@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
     Stage stage = Stage.WAIT;
     enum Stage {
         WAIT, RUN, BREAK;
-        public static double length = 3;
+        public static double length = 5;
         private static Stage[] vals = values();
         public Stage next() {
             return vals[(this.ordinal()+1) % vals.length];
