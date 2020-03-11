@@ -132,8 +132,8 @@ public class GameScreen implements Screen {
     private void randomMove() {
         for (Body body: bodies) {
             body.applyLinearImpulse(
-                    random.nextInt(100000) - 50000,
-                    random.nextInt(100000) - 50000,
+                    random.nextInt(10000) - 5000,
+                    random.nextInt(10000) - 5000,
                     body.getPosition().x,
                     body.getPosition().y,
                     true);
@@ -141,23 +141,25 @@ public class GameScreen implements Screen {
     }
 
     private void saveMove() {
-        int impulse = 50000;
+        int impulse = 5000;
         for (Body body: bodies) {
-            double velX = body.getLinearVelocity().x;
-            double velY = body.getLinearVelocity().y;
-            float x = (body.getPosition().x - 100) / scale;
-            float y = (body.getPosition().y - 100) / scale;
-            Vector2 vector = floor.findNearest(x, y);
-            if (vector.x > x && velX < maxVelocity) {
+            Vector2 velocity = body.getLinearVelocity();
+            double velX = velocity.x;
+            double velY = velocity.y;
+            Vector2 pos = body.getPosition();
+            float x = (pos.x - 100) / scale;
+            float y = (pos.y - 100) / scale;
+            Vector2 destination = floor.findNearest(x, y);
+            if (destination.x > x && velX < maxVelocity) {
                 body.applyLinearImpulse(impulse, 0, x, y, true);
             }
-            if (vector.x < x && velX > -maxVelocity) {
+            if (destination.x < x && velX > -maxVelocity) {
                 body.applyLinearImpulse(-impulse, 0, x, y,true);
             }
-            if (vector.y > y && velY < maxVelocity) {
+            if (destination.y > y && velY < maxVelocity) {
                 body.applyLinearImpulse(0, impulse, x, y,true);
             }
-            if (vector.y < y && velY > -maxVelocity) {
+            if (destination.y < y && velY > -maxVelocity) {
                 body.applyLinearImpulse(0, -impulse, x, y,true);
             }
         }
