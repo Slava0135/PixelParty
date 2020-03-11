@@ -18,6 +18,7 @@ public class GameScreen implements Screen {
     final static Color background = Color.WHITE;
     final static int unitRadius = 15; //pixels
     final static int scale = 50; //1 tile length
+    double speedMultiplier = 0.9;
     //rendering
     final PixelGame game;
     OrthographicCamera camera;
@@ -28,12 +29,12 @@ public class GameScreen implements Screen {
     Floor floor = new Floor();
     Array<Body> bodies;
     //timing
-    float time = 0;
+    double time = 0;
     //staging
     Stage stage = Stage.WAIT;
     enum Stage {
         WAIT, RUN, BREAK;
-        public static float length = 3;
+        public static double length = 3;
         private static Stage[] vals = values();
         public Stage next() {
             return vals[(this.ordinal()+1) % vals.length];
@@ -88,6 +89,7 @@ public class GameScreen implements Screen {
                 if (time > Stage.length) {
                     time = 0;
                     stage = stage.next();
+                    Stage.length *= speedMultiplier;
                     floor.generateFloor();
                 }
             }
