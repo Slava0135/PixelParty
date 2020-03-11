@@ -149,7 +149,7 @@ public class GameScreen implements Screen {
             Vector2 pos = body.getPosition();
             float x = (pos.x - 100) / scale;
             float y = (pos.y - 100) / scale;
-            Vector2 destination = floor.findNearest(x, y);
+            Vector2 destination = floor.findClosest(x, y);
             if (destination.x > x && velX < maxVelocity) {
                 body.applyLinearImpulse(impulse, 0, x, y, true);
             }
