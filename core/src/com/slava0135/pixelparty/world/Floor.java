@@ -14,7 +14,7 @@ final public class Floor {
     public void generateFloor() {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                grid[x][y] = Palette.randomColor();
+                grid[y][x] = Palette.randomColor();
             }
         }
         currentColor = Palette.randomColor();
@@ -23,8 +23,8 @@ final public class Floor {
     public void throwFloor() {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                if (grid[x][y] != currentColor) {
-                    grid[x][y] = null;
+                if (grid[y][x] != currentColor) {
+                    grid[y][x] = null;
                 }
             }
         }

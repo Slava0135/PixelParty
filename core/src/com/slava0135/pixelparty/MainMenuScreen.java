@@ -12,7 +12,6 @@ public class MainMenuScreen implements Screen {
 
     final PixelGame game;
     OrthographicCamera camera;
-    private final Random random = new Random();
 
     public MainMenuScreen(final PixelGame game) {
         this.game = game;
@@ -61,5 +60,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        game.dispose();
     }
 }
