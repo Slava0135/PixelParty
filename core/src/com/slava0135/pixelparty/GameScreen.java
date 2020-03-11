@@ -45,6 +45,35 @@ public class GameScreen implements Screen {
         shapeRenderer = new ShapeRenderer();
         time = 0;
         //spawn units
+        spawnUnits(unitAmount);
+        floor.generateFloor();
+    }
+
+    @Override
+    public void render(float delta) {
+        //graphics
+        Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.update();
+
+        floor.draw(100, 100, scale);
+        for (Body body: bodies) {
+            Vector2 vector = body.getPosition();
+            shapeRenderer.setColor(Color.BLACK);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.circle(vector.x, vector.y, unitRadius);
+            shapeRenderer.end();
+        }
+        //testing...
+        floor.generateFloor();
+        floor.round();
+
+        //movement
+        time += delta;
+        world.step(1/60f, 6, 2);
+    }
+
+    private void spawnUnits(int amount) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         CircleShape circle = new CircleShape();
@@ -55,47 +84,13 @@ public class GameScreen implements Screen {
         fixtureDef.friction = 0;
         fixtureDef.restitution = 0;
         bodies = new Array<>();
-        for (int i = 0; i < unitAmount; i++) {
+        for (int i = 0; i < amount; i++) {
             bodyDef.position.set(100 + random.nextInt(800), 100 + random.nextInt(800));
             Body body = world.createBody(bodyDef);
             Fixture fixture = body.createFixture(fixtureDef);
             bodies.add(body);
         }
         circle.dispose();
-
-        floor.generateFloor();
-    }
-
-    @Override
-    public void render(float delta) {
-        //graphics
-        Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
-        Palette[][] grid = floor.getGrid();
-        for (int i = 0; i < Floor.size; i++) {
-            for (int j = 0; j < Floor.size; j++) {
-                Palette color = grid[i][j];
-                if (color != null) {
-                    shapeRenderer.setColor(color.color);
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                    shapeRenderer.rect(100 + i * scale, 100 + j * scale, scale, scale);
-                    shapeRenderer.end();
-                }
-            }
-        }
-        for (Body body: bodies) {
-            Vector2 vector = body.getPosition();
-            shapeRenderer.setColor(Color.BLACK);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.circle(vector.x, vector.y, unitRadius);
-            shapeRenderer.end();
-        }
-        floor.generateFloor();
-        floor.round();
-        //movement
-        time += delta;
-        world.step(1/60f, 6, 2);
     }
 
     @Override
