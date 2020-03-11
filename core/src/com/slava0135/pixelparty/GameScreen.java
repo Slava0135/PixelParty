@@ -29,13 +29,16 @@ public class GameScreen implements Screen {
     Array<Body> bodies;
     //timing
     float time;
-    float waitTime = 3;
-    float breakTime = 3;
-    float runTime = 3;
     //staging
-    boolean isRun = false;
-    boolean isBreak = false;
-    boolean isWait = true;
+    Stage stage = Stage.WAIT;
+    enum Stage {
+        WAIT, RUN, BREAK;
+        public static float length = 3;
+        private static Stage[] vals = values();
+        public Stage next() {
+            return vals[(this.ordinal()+1) % vals.length];
+        }
+    }
 
     public GameScreen(final PixelGame game, int unitAmount) {
         this.game = game;
@@ -66,25 +69,26 @@ public class GameScreen implements Screen {
             shapeRenderer.end();
         }
         //logic
-        if (isWait) {
-            if (time > waitTime) {
-                time = 0;
-                isRun = true;
-                isWait = false;
+        switch(stage) {
+            case WAIT: {
+                if (time > Stage.length) {
+                    time = 0;
+                    stage = stage.next();
+                }
             }
-        } else if (isRun) {
-            if (time > runTime) {
-                time = 0;
-                isBreak = true;
-                isRun = false;
-                floor.throwFloor();
+            case RUN: {
+                if (time > Stage.length) {
+                    time = 0;
+                    stage = stage.next();
+                    floor.throwFloor();
+                }
             }
-        } else if (isBreak) {
-            if (time > breakTime) {
-                time = 0;
-                isWait = true;
-                isBreak = false;
-                floor.generateFloor();
+            case BREAK: {
+                if (time > Stage.length) {
+                    time = 0;
+                    stage = stage.next();
+                    floor.generateFloor();
+                }
             }
         }
         //movement
