@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 final public class Floor {
     final private static int size = 16;
     final private Palette[][] grid = new Palette[size][size];
-    private Palette currentColor;
+    public Palette currentColor;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public void generateFloor() {
@@ -17,7 +17,7 @@ final public class Floor {
         currentColor = Palette.randomColor();
     }
 
-    public void round() {
+    public void throwFloor() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (grid[i][j] != currentColor) {
@@ -43,12 +43,12 @@ final public class Floor {
 
     public boolean isOnTile(double gridX, double gridY, double radius) { //transform coords before using
         gridY = size - gridY;
-        if (gridX + radius < 0 || gridX - radius < size || gridY + radius < 0 || gridY - radius < size) return false;
+        if (gridX < 0 || gridX < size || gridY < 0 || gridY < size) return false;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (grid[i][j] != null) {
                     int up = i + 1, down = i, left = j, right = j + 1;
-                    if (gridY < up && gridY > down && gridX > left && gridY < right) return true; //inside the square
+                    if (gridY < up && gridY > down && gridX > left && gridY < right) return true; //is the centre inside the square
                 }
             }
         }

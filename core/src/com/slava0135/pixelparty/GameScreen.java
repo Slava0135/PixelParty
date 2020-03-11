@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class GameScreen implements Screen {
     final static Color background = Color.WHITE;
-    final static int unitRadius = 20; //pixels
+    final static int unitRadius = 15; //pixels
     final static int scale = 50; //1 tile length
     //rendering
     final PixelGame game;
@@ -29,12 +29,13 @@ public class GameScreen implements Screen {
     Array<Body> bodies;
     //timing
     float time;
-    float roundTime = 5;
-    float interruptionTime = 5;
-    float runTime = 5;
+    float waitTime = 3;
+    float breakTime = 3;
+    float runTime = 3;
     //staging
     boolean isRun = false;
     boolean isBreak = false;
+    boolean isWait = true;
 
     public GameScreen(final PixelGame game, int unitAmount) {
         this.game = game;
@@ -50,6 +51,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        time += delta;
         //graphics
         Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -63,10 +65,29 @@ public class GameScreen implements Screen {
             shapeRenderer.circle(vector.x, vector.y, unitRadius);
             shapeRenderer.end();
         }
-
-        floor.generateFloor();
+        //logic
+        if (isWait) {
+            if (time > waitTime) {
+                time = 0;
+                isRun = true;
+                isWait = false;
+            }
+        } else if (isRun) {
+            if (time > runTime) {
+                time = 0;
+                isBreak = true;
+                isRun = false;
+                floor.throwFloor();
+            }
+        } else if (isBreak) {
+            if (time > breakTime) {
+                time = 0;
+                isWait = true;
+                isBreak = false;
+                floor.generateFloor();
+            }
+        }
         //movement
-        time += delta;
         world.step(1/60f, 6, 2);
     }
 
