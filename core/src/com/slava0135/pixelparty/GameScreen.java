@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import com.slava0135.pixelparty.world.Floor;
 import com.slava0135.pixelparty.world.Palette;
 
+import java.util.Iterator;
 import java.util.Random;
 
 public class GameScreen implements Screen {
@@ -77,6 +78,7 @@ public class GameScreen implements Screen {
                     time = 0;
                     stage = stage.next();
                 }
+                break;
             }
             case RUN: {
                 if (time > Stage.length) {
@@ -84,6 +86,7 @@ public class GameScreen implements Screen {
                     stage = stage.next();
                     floor.throwFloor();
                 }
+                break;
             }
             case BREAK: {
                 if (time > Stage.length) {
@@ -91,7 +94,10 @@ public class GameScreen implements Screen {
                     stage = stage.next();
                     Stage.length *= speedMultiplier;
                     floor.generateFloor();
+                } else {
+                    eliminate();
                 }
+                break;
             }
         }
         world.step(1/60f, 6, 2);
@@ -111,10 +117,24 @@ public class GameScreen implements Screen {
         for (int i = 0; i < amount; i++) {
             bodyDef.position.set(100 + random.nextInt(800), 100 + random.nextInt(800));
             Body body = world.createBody(bodyDef);
-            Fixture fixture = body.createFixture(fixtureDef);
+            body.createFixture(fixtureDef);
             bodies.add(body);
         }
         circle.dispose();
+    }
+
+    private void eliminate() {
+        for (Iterator<Body> iter = bodies.iterator(); iter.hasNext(); ) {
+            Body body = iter.next();
+            Vector2 vector = body.getPosition();
+            if (!floor.isOnTile(
+                    (vector.x - 100) / scale,
+                    (vector.y - 100) / scale,
+                    (double) unitRadius / scale)) {
+                world.destroyBody(body);
+                bodies.removeValue(body, true);
+            }
+        }
     }
 
     @Override

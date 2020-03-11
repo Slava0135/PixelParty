@@ -34,7 +34,7 @@ final public class Floor {
                 if (color != null) {
                     shapeRenderer.setColor(color.color);
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                    shapeRenderer.rect(x + i * scale, y + j * scale, scale, scale);
+                    shapeRenderer.rect(x + j * scale, y + i * scale, scale, scale);
                     shapeRenderer.end();
                 }
             }
@@ -42,13 +42,11 @@ final public class Floor {
     }
 
     public boolean isOnTile(double gridX, double gridY, double radius) { //transform coords before using
-        gridY = size - gridY;
-        if (gridX < 0 || gridX < size || gridY < 0 || gridY < size) return false;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (grid[i][j] != null) {
                     int up = i + 1, down = i, left = j, right = j + 1;
-                    if (gridY < up && gridY > down && gridX > left && gridY < right) return true; //is the centre inside the square
+                    if (gridY < up && gridY > down && gridX > left && gridX < right) return true;
                 }
             }
         }
