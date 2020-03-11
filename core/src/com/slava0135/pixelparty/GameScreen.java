@@ -21,14 +21,14 @@ public class GameScreen implements Screen {
     //rendering
     final PixelGame game;
     OrthographicCamera camera;
-    ShapeRenderer shapeRenderer;
+    ShapeRenderer shapeRenderer = new ShapeRenderer();
     //data
-    World world;
     Random random = new Random();
-    Floor floor;
+    World world;
+    Floor floor = new Floor();
     Array<Body> bodies;
     //timing
-    float time;
+    float time = 0;
     //staging
     Stage stage = Stage.WAIT;
     enum Stage {
@@ -42,19 +42,19 @@ public class GameScreen implements Screen {
 
     public GameScreen(final PixelGame game, int unitAmount) {
         this.game = game;
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1000, 1000);
         world = new World(new Vector2(0, 0),false);
-        shapeRenderer = new ShapeRenderer();
-        floor = new Floor();
-        time = 0;
-        spawnUnits(unitAmount);
+
         floor.generateFloor();
+        spawnUnits(unitAmount);
     }
 
     @Override
     public void render(float delta) {
         time += delta;
+
         //graphics
         Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -68,6 +68,7 @@ public class GameScreen implements Screen {
             shapeRenderer.circle(vector.x, vector.y, unitRadius);
             shapeRenderer.end();
         }
+
         //logic
         switch(stage) {
             case WAIT: {
@@ -91,7 +92,6 @@ public class GameScreen implements Screen {
                 }
             }
         }
-        //movement
         world.step(1/60f, 6, 2);
     }
 
@@ -138,5 +138,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         world.dispose();
+        shapeRenderer.dispose();
     }
 }
