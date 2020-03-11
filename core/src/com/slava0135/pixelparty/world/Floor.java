@@ -2,12 +2,10 @@ package com.slava0135.pixelparty.world;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 final public class Floor {
     final private static int size = 16;
     final private Palette[][] grid = new Palette[size][size];
+    private Palette currentColor;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public void generateFloor() {
@@ -16,18 +14,17 @@ final public class Floor {
                 grid[i][j] = Palette.randomColor();
             }
         }
+        currentColor = Palette.randomColor();
     }
 
-    public Palette round() {
-        Palette color = Palette.randomColor();
+    public void round() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (grid[i][j] != color) {
+                if (grid[i][j] != currentColor) {
                     grid[i][j] = null;
                 }
             }
         }
-        return color;
     }
 
     public void draw(int x, int y, int scale) {

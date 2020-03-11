@@ -65,12 +65,6 @@ public class GameScreen implements Screen {
         }
 
         floor.generateFloor();
-        Palette color = floor.round();
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.font.setColor(color.color);
-        game.font.draw(game.batch, color.name,50, 950);
-        game.batch.end();
         //movement
         time += delta;
         world.step(1/60f, 6, 2);
