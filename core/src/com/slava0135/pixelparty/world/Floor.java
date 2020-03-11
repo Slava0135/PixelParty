@@ -28,7 +28,7 @@ final public class Floor {
     }
 
     public void draw(int x, int y, int scale) {
-        for (int i = Floor.size - 1; i >= 0; i--) { //from "up to down" to "down to up"
+        for (int i = 0; i < size; i++) { //from "up to down" to "down to up"
             for (int j = 0; j < Floor.size; j++) {
                 Palette color = grid[i][j];
                 if (color != null) {
