@@ -17,7 +17,7 @@ public class Floor {
         }
     }
 
-    public void round() {
+    public Palette round() {
         Palette color = Palette.randomColor();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -26,6 +26,7 @@ public class Floor {
                 }
             }
         }
+        return color;
     }
 
     public void draw(int x, int y, int scale) {

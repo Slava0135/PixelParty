@@ -41,10 +41,9 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1000, 1000);
         world = new World(new Vector2(0, 0),false);
-        floor = new Floor();
         shapeRenderer = new ShapeRenderer();
+        floor = new Floor();
         time = 0;
-        //spawn units
         spawnUnits(unitAmount);
         floor.generateFloor();
     }
@@ -66,8 +65,12 @@ public class GameScreen implements Screen {
         }
 
         floor.generateFloor();
-        floor.round();
-
+        Palette color = floor.round();
+        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.begin();
+        game.font.setColor(color.color);
+        game.font.draw(game.batch, color.name,50, 950);
+        game.batch.end();
         //movement
         time += delta;
         world.step(1/60f, 6, 2);
