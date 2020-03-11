@@ -1,6 +1,9 @@
 package com.slava0135.pixelparty.world;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+
+import java.util.Map;
 
 final public class Floor {
     final private static int size = 16;
@@ -9,32 +12,32 @@ final public class Floor {
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public void generateFloor() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                grid[i][j] = Palette.randomColor();
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                grid[x][y] = Palette.randomColor();
             }
         }
         currentColor = Palette.randomColor();
     }
 
     public void throwFloor() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (grid[i][j] != currentColor) {
-                    grid[i][j] = null;
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                if (grid[x][y] != currentColor) {
+                    grid[x][y] = null;
                 }
             }
         }
     }
 
     public void draw(int x, int y, int scale) {
-        for (int i = 0; i < size; i++) { //from "up to down" to "down to up"
-            for (int j = 0; j < Floor.size; j++) {
-                Palette color = grid[i][j];
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < Floor.size; col++) {
+                Palette color = grid[row][col];
                 if (color != null) {
                     shapeRenderer.setColor(color.color);
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                    shapeRenderer.rect(x + j * scale, y + i * scale, scale, scale);
+                    shapeRenderer.rect(x + col * scale, y + row * scale, scale, scale);
                     shapeRenderer.end();
                 }
             }
@@ -42,14 +45,30 @@ final public class Floor {
     }
 
     public boolean isOnTile(double gridX, double gridY, double radius) { //transform coords before using
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (grid[i][j] != null) {
-                    int up = i + 1, down = i, left = j, right = j + 1;
-                    if (gridY < up && gridY > down && gridX > left && gridX < right) return true;
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                if (grid[y][x] != null) {
+                    int up = y + 1, down = y, left = x, right = x + 1;
+                    if (gridY <= up && gridY >= down && gridX >= left && gridX <= right) return true;
                 }
             }
         }
         return false;
+    }
+
+    public Vector2 findNearest(double gridX, double gridY) {
+        double minDist = 10000000;
+        Vector2 vector = new Vector2(-1, -1);
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                if (grid[x][y] == currentColor) {
+                    double newDist = vector.dst2(x, y);
+                    if (newDist < minDist) {
+                        vector = new Vector2(x, y);
+                    }
+                }
+            }
+        }
+        return vector;
     }
 }
