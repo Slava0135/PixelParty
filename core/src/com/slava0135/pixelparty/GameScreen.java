@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class GameScreen implements Screen {
     final static Color background = Color.WHITE;
-    final static int unitRadius = 15; //pixels
+    final static int unitRadius = 10; //pixels
     final static int scale = 50; //1 tile length
     double speedMultiplier = 1.1;
     double maxVelocity = 100;

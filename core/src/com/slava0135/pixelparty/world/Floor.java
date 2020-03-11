@@ -44,7 +44,7 @@ final public class Floor {
         }
     }
 
-    public boolean isOnTile(double gridX, double gridY, double radius) { //transform coords before using
+    public boolean isOnTile(double gridX, double gridY, double radius) { //radius???
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 if (grid[y][x] != null) {
