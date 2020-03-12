@@ -44,12 +44,12 @@ final public class Floor {
         }
     }
 
-    public boolean isOnTile(double gridX, double gridY, double radius) { //radius???
+    public boolean isOnTile(double gridX, double gridY, double radius) {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 if (grid[y][x] != null) {
                     int up = y + 1, down = y, left = x, right = x + 1;
-                    if (gridY <= up && gridY >= down && gridX >= left && gridX <= right) return true;
+                    if (gridY < up + radius && gridY > down - radius && gridX > left - radius && gridX < right + radius) return true;
                 }
             }
         }

@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
         public static double length = 5;
         private static Stage[] vals = values();
         public Stage next() {
-            return vals[(this.ordinal()+1) % vals.length];
+            return vals[(this.ordinal() + 1) % vals.length];
         }
     }
 
