@@ -19,13 +19,13 @@ public class GameScreen implements Screen {
     final static Color background = Color.WHITE;
     final static int scale = 50;
     final static float unitScale = 0.3f;
-    final static float unitRadius = unitScale * scale;
+    final static float unitRadius = unitScale;
     final static int border = scale * 2;
-    final static int impulse = 5000;
+    final static float impulse = 0.5f;
     final static int floorSize = scale * Floor.size;
     final static int unitAmount = 100;
     double speedMultiplier = 1.05;
-    double maxVelocity = 100;
+    double maxVelocity = 0.5;
     //rendering
     final PixelGame game;
     OrthographicCamera camera;
@@ -60,7 +60,7 @@ public class GameScreen implements Screen {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         FixtureDef fixture = getFixture();
-        bodyDef.position.set(border + random.nextInt(floorSize), border + random.nextInt(floorSize));
+        bodyDef.position.set(random.nextInt(floorSize) / (float) scale, random.nextInt(floorSize) / (float) scale);
         player = world.createBody(bodyDef);
         player.createFixture(fixture);
 
@@ -144,7 +144,7 @@ public class GameScreen implements Screen {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         FixtureDef fixture = getFixture();
         for (int i = 0; i < amount; i++) {
-            bodyDef.position.set(border + random.nextInt(floorSize), border + random.nextInt(floorSize));
+            bodyDef.position.set(random.nextInt(floorSize) / (float) scale, random.nextInt(floorSize) / (float) scale);
             Body body = world.createBody(bodyDef);
             body.createFixture(fixture);
             bodies.add(body);
@@ -153,21 +153,29 @@ public class GameScreen implements Screen {
 
     private void randomMove() {
         for (Body body: bodies) {
-            body.applyLinearImpulse(
-                    random.nextInt(2 * impulse) - impulse,
-                    random.nextInt(2 * impulse) - impulse,
-                    body.getPosition().x,
-                    body.getPosition().y,
-                    true);
+            Vector2 pos = body.getPosition();
+            Vector2 velocity = body.getLinearVelocity();
+            double velX = velocity.x;
+            double velY = velocity.y;
+            if (velX < maxVelocity) {
+                body.applyLinearImpulse(impulse * random.nextFloat(), 0, pos.x, pos.y, true);
+            }
+            if (velX > -maxVelocity) {
+                body.applyLinearImpulse(-impulse * random.nextFloat(), 0, pos.x, pos.y,true);
+            }
+            if (velY < maxVelocity) {
+                body.applyLinearImpulse(0, impulse * random.nextFloat(), pos.x, pos.y,true);
+            }
+            if (velY > -maxVelocity) {
+                body.applyLinearImpulse(0, -impulse * random.nextFloat(), pos.x, pos.y,true);
+            }
         }
     }
 
     private void saveMove() {
         for (Body body: bodies) {
             Vector2 pos = body.getPosition();
-            float x = (pos.x - border) / scale;
-            float y = (pos.y - border) / scale;
-            moveBody(floor.findClosest(x, y), body);
+            moveBody(floor.findClosest(pos.x, pos.y), body);
         }
     }
 
@@ -176,19 +184,17 @@ public class GameScreen implements Screen {
         double velX = velocity.x;
         double velY = velocity.y;
         Vector2 pos = body.getPosition();
-        float x = (pos.x - border) / scale;
-        float y = (pos.y - border) / scale;
-        if (destination.x > x && velX < maxVelocity) {
-            body.applyLinearImpulse(impulse, 0, x, y, true);
+        if (destination.x > pos.x && velX < maxVelocity) {
+            body.applyLinearImpulse(impulse, 0, pos.x, pos.y, true);
         }
-        if (destination.x < x && velX > -maxVelocity) {
-            body.applyLinearImpulse(-impulse, 0, x, y,true);
+        if (destination.x < pos.x && velX > -maxVelocity) {
+            body.applyLinearImpulse(-impulse, 0, pos.x, pos.y,true);
         }
-        if (destination.y > y && velY < maxVelocity) {
-            body.applyLinearImpulse(0, impulse, x, y,true);
+        if (destination.y > pos.y && velY < maxVelocity) {
+            body.applyLinearImpulse(0, impulse, pos.x, pos.y,true);
         }
-        if (destination.y < y && velY > -maxVelocity) {
-            body.applyLinearImpulse(0, -impulse, x, y,true);
+        if (destination.y < pos.y && velY > -maxVelocity) {
+            body.applyLinearImpulse(0, -impulse, pos.x, pos.y,true);
         }
     }
 
@@ -196,7 +202,7 @@ public class GameScreen implements Screen {
         Vector2 vector = body.getPosition();
         shapeRenderer.setColor(color);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.circle(vector.x, vector.y, unitRadius);
+        shapeRenderer.circle(vector.x * scale + border, vector.y * scale + border, unitRadius * scale);
         shapeRenderer.end();
     }
 
@@ -212,7 +218,7 @@ public class GameScreen implements Screen {
 
     private boolean isDead(Body body) {
         Vector2 vector = body.getPosition();
-        return !floor.isOnTile((vector.x - border) / scale, (vector.y - border) / scale, (double) unitRadius / scale);
+        return !floor.isOnTile(vector.x, vector.y, unitRadius);
     }
 
     private void finishGame() {
