@@ -21,11 +21,11 @@ public class GameScreen implements Screen {
     final static float unitScale = 0.3f;
     final static float unitRadius = unitScale;
     final static int border = scale * 2;
-    final static float impulse = 0.5f;
+    final static float impulse = 0.05f;
     final static int floorSize = scale * Floor.size;
     final static int unitAmount = 100;
     double speedMultiplier = 1.05;
-    double maxVelocity = 0.5;
+    double maxVelocity = 10;
     //rendering
     final PixelGame game;
     OrthographicCamera camera;
@@ -157,17 +157,32 @@ public class GameScreen implements Screen {
             Vector2 velocity = body.getLinearVelocity();
             double velX = velocity.x;
             double velY = velocity.y;
-            if (velX < maxVelocity) {
-                body.applyLinearImpulse(impulse * random.nextFloat(), 0, pos.x, pos.y, true);
-            }
-            if (velX > -maxVelocity) {
-                body.applyLinearImpulse(-impulse * random.nextFloat(), 0, pos.x, pos.y,true);
-            }
-            if (velY < maxVelocity) {
-                body.applyLinearImpulse(0, impulse * random.nextFloat(), pos.x, pos.y,true);
-            }
-            if (velY > -maxVelocity) {
-                body.applyLinearImpulse(0, -impulse * random.nextFloat(), pos.x, pos.y,true);
+            int side = random.nextInt(4);
+            switch (side) {
+                case 0: {
+                    if (velX < maxVelocity) {
+                        body.applyLinearImpulse(impulse, 0, pos.x, pos.y, true);
+                    }
+                    break;
+                }
+                case 1: {
+                    if (velX > -maxVelocity) {
+                        body.applyLinearImpulse(-impulse, 0, pos.x, pos.y, true);
+                    }
+                    break;
+                }
+                case 2: {
+                    if (velY < maxVelocity) {
+                        body.applyLinearImpulse(0, impulse, pos.x, pos.y, true);
+                    }
+                    break;
+                }
+                default: {
+                    if (velY > -maxVelocity) {
+                        body.applyLinearImpulse(0, -impulse, pos.x, pos.y, true);
+                    }
+                    break;
+                }
             }
         }
     }
