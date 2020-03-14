@@ -3,8 +3,6 @@ package com.slava0135.pixelparty.world;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Map;
-
 final public class Floor {
     final private static int size = 16;
     final private Palette[][] grid = new Palette[size][size];

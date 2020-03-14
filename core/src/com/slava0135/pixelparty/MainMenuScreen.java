@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-import java.util.Random;
-
 public class MainMenuScreen implements Screen {
 
     final PixelGame game;

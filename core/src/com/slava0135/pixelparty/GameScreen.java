@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.slava0135.pixelparty.world.Floor;
-import com.slava0135.pixelparty.world.Palette;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -19,6 +18,8 @@ public class GameScreen implements Screen {
     final static Color background = Color.WHITE;
     final static int unitRadius = 10; //pixels
     final static int scale = 50; //1 tile length
+    final static int border = 100;
+    final static int impulse = 5000;
     double speedMultiplier = 1.1;
     double maxVelocity = 100;
     //rendering
@@ -48,6 +49,7 @@ public class GameScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1000, 1000);
+
         world = new World(new Vector2(0, 0),false);
 
         floor.generateFloor();
@@ -63,7 +65,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
 
-        floor.draw(100, 100, scale);
+        floor.draw(border, border, scale);
         for (Body body: bodies) {
             Vector2 vector = body.getPosition();
             shapeRenderer.setColor(Color.BLACK);
@@ -73,20 +75,16 @@ public class GameScreen implements Screen {
         }
 
         //logic
+        boolean isOver = time > Stage.length;
         switch(stage) {
             case WAIT: {
-                if (time > Stage.length) {
-                    time = 0;
-                    stage = stage.next();
-                } else {
+                if (!isOver) {
                     randomMove();
                 }
                 break;
             }
             case RUN: {
-                if (time > Stage.length) {
-                    time = 0;
-                    stage = stage.next();
+                if (isOver) {
                     floor.throwFloor();
                 } else {
                     saveMove();
@@ -94,9 +92,7 @@ public class GameScreen implements Screen {
                 break;
             }
             case BREAK: {
-                if (time > Stage.length) {
-                    time = 0;
-                    stage = stage.next();
+                if (isOver) {
                     Stage.length /= speedMultiplier;
                     maxVelocity *= speedMultiplier;
                     floor.generateFloor();
@@ -106,6 +102,10 @@ public class GameScreen implements Screen {
                 }
                 break;
             }
+        }
+        if (isOver) {
+            time = 0;
+            stage = stage.next();
         }
         world.step(1/60f, 6, 2);
     }
@@ -121,7 +121,7 @@ public class GameScreen implements Screen {
         fixtureDef.friction = 0;
         fixtureDef.restitution = 0;
         for (int i = 0; i < amount; i++) {
-            bodyDef.position.set(100 + random.nextInt(800), 100 + random.nextInt(800));
+            bodyDef.position.set(border + random.nextInt(800), border + random.nextInt(800));
             Body body = world.createBody(bodyDef);
             body.createFixture(fixtureDef);
             bodies.add(body);
@@ -132,8 +132,8 @@ public class GameScreen implements Screen {
     private void randomMove() {
         for (Body body: bodies) {
             body.applyLinearImpulse(
-                    random.nextInt(10000) - 5000,
-                    random.nextInt(10000) - 5000,
+                    random.nextInt(2 * impulse) - impulse,
+                    random.nextInt(2 * impulse) - impulse,
                     body.getPosition().x,
                     body.getPosition().y,
                     true);
@@ -141,14 +141,13 @@ public class GameScreen implements Screen {
     }
 
     private void saveMove() {
-        int impulse = 5000;
         for (Body body: bodies) {
             Vector2 velocity = body.getLinearVelocity();
             double velX = velocity.x;
             double velY = velocity.y;
             Vector2 pos = body.getPosition();
-            float x = (pos.x - 100) / scale;
-            float y = (pos.y - 100) / scale;
+            float x = (pos.x - border) / scale;
+            float y = (pos.y - border) / scale;
             Vector2 destination = floor.findClosest(x, y);
             if (destination.x > x && velX < maxVelocity) {
                 body.applyLinearImpulse(impulse, 0, x, y, true);
@@ -170,8 +169,8 @@ public class GameScreen implements Screen {
             Body body = iter.next();
             Vector2 vector = body.getPosition();
             if (!floor.isOnTile(
-                    (vector.x - 100) / scale,
-                    (vector.y - 100) / scale,
+                    (vector.x - border) / scale,
+                    (vector.y - border) / scale,
                     (double) unitRadius / scale)) {
                 world.destroyBody(body);
                 bodies.removeValue(body, true);
