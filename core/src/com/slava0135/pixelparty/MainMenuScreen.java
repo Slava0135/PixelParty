@@ -10,6 +10,7 @@ public class MainMenuScreen implements Screen {
 
     final PixelGame game;
     OrthographicCamera camera;
+    final static Color background = Color.LIGHT_GRAY;
 
     public MainMenuScreen(final PixelGame game) {
         this.game = game;
@@ -23,7 +24,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 0);
+        Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
@@ -35,7 +36,7 @@ public class MainMenuScreen implements Screen {
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game, 200));
+            game.setScreen(new GameScreen(game));
             dispose();
         }
     }
