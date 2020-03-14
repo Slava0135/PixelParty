@@ -16,10 +16,11 @@ import java.util.Random;
 
 public class GameScreen implements Screen {
     final static Color background = Color.WHITE;
-    final static int unitRadius = 10; //pixels
     final static int scale = 50; //1 tile length
-    final static int border = 100;
+    final static int unitRadius = scale / 5;
+    final static int border = scale * 2;
     final static int impulse = 5000;
+    final static int floorSize = scale * Floor.size;
     double speedMultiplier = 1.1;
     double maxVelocity = 100;
     //rendering
@@ -48,7 +49,7 @@ public class GameScreen implements Screen {
         this.game = game;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1000, 1000);
+        camera.setToOrtho(false, floorSize + 2 * border, floorSize + 2 * border);
 
         world = new World(new Vector2(0, 0),false);
 
@@ -121,7 +122,7 @@ public class GameScreen implements Screen {
         fixtureDef.friction = 0;
         fixtureDef.restitution = 0;
         for (int i = 0; i < amount; i++) {
-            bodyDef.position.set(border + random.nextInt(800), border + random.nextInt(800));
+            bodyDef.position.set(border + random.nextInt(floorSize), border + random.nextInt(floorSize));
             Body body = world.createBody(bodyDef);
             body.createFixture(fixtureDef);
             bodies.add(body);
