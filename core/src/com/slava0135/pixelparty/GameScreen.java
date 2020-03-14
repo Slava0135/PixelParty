@@ -21,11 +21,11 @@ public class GameScreen implements Screen {
     final static float unitScale = 0.3f;
     final static float unitRadius = unitScale;
     final static int border = scale * 2;
-    final static float impulse = 0.05f;
+    final static float impulse = 0.1f;
     final static int floorSize = scale * Floor.size;
     final static int unitAmount = 100;
     double speedMultiplier = 1.05;
-    double maxVelocity = 10;
+    double maxVelocity = 1;
     //rendering
     final PixelGame game;
     OrthographicCamera camera;
@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
     Stage stage = Stage.WAIT;
     enum Stage {
         WAIT, RUN, BREAK;
-        public static double length = 3;
+        public static double length = 5;
         private static Stage[] vals = values();
         public Stage next() {
             return vals[(this.ordinal() + 1) % vals.length];
