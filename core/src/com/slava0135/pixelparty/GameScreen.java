@@ -56,16 +56,11 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, floorSize + 2 * border, floorSize + 2 * border);
 
         world = new World(new Vector2(0, 0),false);
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        FixtureDef fixture = getFixture();
-        bodyDef.position.set(random.nextInt(floorSize) / (float) scale, random.nextInt(floorSize) / (float) scale);
-        player = world.createBody(bodyDef);
-        player.createFixture(fixture);
-
+        generateBorders();
         floor.generateFloor();
+
         spawnUnits(unitAmount);
+        spawnPlayer();
     }
 
     @Override
@@ -127,7 +122,7 @@ public class GameScreen implements Screen {
         }
     }
 
-    private FixtureDef getFixture() {
+    private FixtureDef getCircleFixture() {
         CircleShape circle = new CircleShape();
         circle.setRadius(unitRadius);
         FixtureDef fixtureDef = new FixtureDef();
@@ -139,10 +134,50 @@ public class GameScreen implements Screen {
         return fixtureDef;
     }
 
+    private void generateBorders() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        PolygonShape polygon = new PolygonShape();
+        polygon.setRadius(unitRadius);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = polygon;
+        fixtureDef.density = 1;
+        fixtureDef.friction = 0;
+        fixtureDef.restitution = 1;
+        polygon.setAsBox(Floor.size / 2f - 0.3f, Floor.size / 2f - 0.3f);
+
+        bodyDef.position.set(Floor.size / 2f, Floor.size * 3f / 2);
+        Body up = world.createBody(bodyDef);
+        up.createFixture(fixtureDef);
+
+        bodyDef.position.set(Floor.size * 3f / 2, Floor.size / 2f);
+        Body right = world.createBody(bodyDef);
+        right.createFixture(fixtureDef);
+
+        bodyDef.position.set(-Floor.size / 2f, Floor.size / 2f);
+        Body left = world.createBody(bodyDef);
+        left.createFixture(fixtureDef);
+
+        bodyDef.position.set(Floor.size / 2f, -Floor.size / 2f);
+        Body down = world.createBody(bodyDef);
+        down.createFixture(fixtureDef);
+
+        polygon.dispose();
+    }
+
+    private void spawnPlayer() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        FixtureDef fixture = getCircleFixture();
+        bodyDef.position.set(random.nextInt(floorSize) / (float) scale, random.nextInt(floorSize) / (float) scale);
+        player = world.createBody(bodyDef);
+        player.createFixture(fixture);
+    }
+
     private void spawnUnits(int amount) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        FixtureDef fixture = getFixture();
+        FixtureDef fixture = getCircleFixture();
         for (int i = 0; i < amount; i++) {
             bodyDef.position.set(random.nextInt(floorSize) / (float) scale, random.nextInt(floorSize) / (float) scale);
             Body body = world.createBody(bodyDef);
