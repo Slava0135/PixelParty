@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class GameScreen implements Screen {
-    final static Color background = Color.LIGHT_GRAY;
+    final static Color background = Color.WHITE;
     final static int scale = 50;
     final static float unitScale = 0.3f;
     final static float unitRadius = unitScale * scale;
@@ -82,6 +82,7 @@ public class GameScreen implements Screen {
             drawBody(body, Color.BLACK);
         }
         drawBody(player, Color.WHITE);
+        world.step(1/60f, 6, 2);
         //logic
         boolean isOver = time > Stage.length;
         switch(stage) {
@@ -121,7 +122,9 @@ public class GameScreen implements Screen {
             camera.unproject(touchPos);
             moveBody(new Vector2((touchPos.x - border) / scale, (touchPos.y - border) / scale), player);
         }
-        world.step(1/60f, 6, 2);
+        if (isDead(player)) {
+            finishGame();
+        }
     }
 
     private FixtureDef getFixture() {
@@ -210,6 +213,10 @@ public class GameScreen implements Screen {
     private boolean isDead(Body body) {
         Vector2 vector = body.getPosition();
         return !floor.isOnTile((vector.x - border) / scale, (vector.y - border) / scale, (double) unitRadius / scale);
+    }
+
+    private void finishGame() {
+
     }
 
     @Override

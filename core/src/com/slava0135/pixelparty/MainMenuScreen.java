@@ -10,7 +10,7 @@ public class MainMenuScreen implements Screen {
 
     final PixelGame game;
     OrthographicCamera camera;
-    final static Color background = Color.LIGHT_GRAY;
+    final static Color background = Color.WHITE;
 
     public MainMenuScreen(final PixelGame game) {
         this.game = game;

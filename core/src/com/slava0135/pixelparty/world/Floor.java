@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 final public class Floor {
-    final public static int size = 16;
-    final private Palette[][] grid = new Palette[size][size];
+    public final static int size = 16;
+    private final Palette[][] grid = new Palette[size][size];
     public Palette currentColor = null;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
