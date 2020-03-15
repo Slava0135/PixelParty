@@ -16,7 +16,7 @@ import com.slava0135.pixelparty.PixelGame;
 
 public class MainMenuScreen implements Screen {
 
-    PixelGame game;
+    private PixelGame game;
     private Stage stage;
     final static Color background = Color.WHITE;
 
@@ -24,9 +24,9 @@ public class MainMenuScreen implements Screen {
         this.game = game;
         stage = new Stage(new ScreenViewport());
 
-        Label title = new Label("Title Screen", PixelGame.gameSkin);
+        Label title = new Label("PIXEL PARTY", PixelGame.gameSkin);
         title.setAlignment(Align.center);
-        title.setY(Gdx.graphics.getHeight()*2f/3);
+        title.setY(Gdx.graphics.getHeight()*0.9f);
         title.setWidth(Gdx.graphics.getWidth());
         stage.addActor(title);
 
@@ -63,6 +63,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -91,6 +92,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        game.dispose();
+        stage.dispose();
     }
 }
