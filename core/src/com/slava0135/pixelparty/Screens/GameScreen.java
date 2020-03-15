@@ -5,15 +5,21 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.World.Floor;
+import com.slava0135.pixelparty.World.Palette;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -35,6 +41,8 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Stage stage;
+    SpriteBatch batch = new SpriteBatch();
+    BitmapFont font;
     //data
     Random random = new Random();
     World world;
@@ -56,6 +64,10 @@ public class GameScreen implements Screen {
 
     public GameScreen(final PixelGame game) {
         this.game = game;
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 100;
+        font = game.generator.generateFont(parameter);
 
         stage = new Stage(new ScreenViewport());
         camera = new OrthographicCamera();
@@ -100,6 +112,7 @@ public class GameScreen implements Screen {
                     floor.throwFloor();
                 } else {
                     saveMove();
+                    printColor();
                 }
                 break;
             }
@@ -115,6 +128,7 @@ public class GameScreen implements Screen {
                 } else {
                     saveMove();
                     eliminate();
+                    printColor();
                 }
                 break;
             }
@@ -266,6 +280,13 @@ public class GameScreen implements Screen {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.circle(vector.x * scale + border, vector.y * scale + border, unitRadius * scale);
         shapeRenderer.end();
+    }
+
+    private void printColor() {
+        batch.begin();
+        font.setColor(floor.currentColor.color);
+        font.draw(batch, floor.currentColor.name,300, 975);
+        batch.end();
     }
 
     private void eliminate() {
