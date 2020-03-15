@@ -26,9 +26,9 @@ public class GameScreen implements Screen {
     final static int border = scale * 2;
     final static float impulse = 0.1f;
     final static int floorSize = scale * Floor.size;
-    final static int unitAmount = 100;
-    double speedMultiplier = 1.05;
-    double maxVelocity = 2;
+    final static int maxUnitAmount = 50;
+    private double speedMultiplier = 1.05;
+    private double maxVelocity = 2;
     Integer score = 0;
     //rendering
     final PixelGame game;
@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
         generateBorders();
         floor.generateFloor();
 
-        spawnUnits(unitAmount);
+        spawnUnits(maxUnitAmount);
         spawnPlayer();
     }
 
@@ -109,6 +109,9 @@ public class GameScreen implements Screen {
                     maxVelocity *= speedMultiplier;
                     floor.generateFloor();
                     score++;
+                    if (bodies.size < maxUnitAmount) {
+                        spawnUnits(maxUnitAmount - bodies.size);
+                    }
                 } else {
                     saveMove();
                     eliminate();
