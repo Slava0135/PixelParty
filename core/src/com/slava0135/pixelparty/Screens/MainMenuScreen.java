@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
@@ -25,6 +26,7 @@ public class MainMenuScreen implements Screen {
         stage = new Stage(new ScreenViewport());
 
         Label title = new Label("PIXEL PARTY", PixelGame.gameSkin);
+        title.setStyle(new Label.LabelStyle(game.font, Color.BLACK));
         title.setAlignment(Align.center);
         title.setY(Gdx.graphics.getHeight()*0.9f);
         title.setWidth(Gdx.graphics.getWidth());
@@ -58,7 +60,7 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
         });
-        stage.addActor(optionsButton);
+        //stage.addActor(optionsButton);
     }
 
     @Override

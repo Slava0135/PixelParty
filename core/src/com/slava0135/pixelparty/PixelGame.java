@@ -10,9 +10,11 @@ import com.slava0135.pixelparty.Screens.MainMenuScreen;
 public class PixelGame extends Game {
 
 	static public Skin gameSkin;
+	public BitmapFont font;
 
 	public void create() {
 		gameSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+		font = new BitmapFont();
 		this.setScreen(new MainMenuScreen(this));
 	}
 
@@ -21,5 +23,7 @@ public class PixelGame extends Game {
 	}
 
 	public void dispose() {
+		font.dispose();
+		gameSkin.dispose();
 	}
 }
