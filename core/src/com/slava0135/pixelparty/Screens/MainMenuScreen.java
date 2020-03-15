@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.slava0135.pixelparty.PixelGame;
-import com.slava0135.pixelparty.Screens.GameScreen;
 
 public class MainMenuScreen implements Screen {
 

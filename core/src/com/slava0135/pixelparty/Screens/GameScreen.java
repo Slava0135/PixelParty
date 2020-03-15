@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.slava0135.pixelparty.PixelGame;
-import com.slava0135.pixelparty.world.Floor;
+import com.slava0135.pixelparty.World.Floor;
 
 import java.util.Iterator;
 import java.util.Random;
