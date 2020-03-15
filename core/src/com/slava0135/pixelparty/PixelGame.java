@@ -4,17 +4,18 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.slava0135.pixelparty.Screens.MainMenuScreen;
 
 public class PixelGame extends Game {
 
 	static public Skin gameSkin;
-	public BitmapFont font;
+	public FreeTypeFontGenerator generator;
 
 	public void create() {
 		gameSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-		font = new BitmapFont();
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("font/slkscr.ttf"));
 		this.setScreen(new MainMenuScreen(this));
 	}
 
@@ -23,7 +24,7 @@ public class PixelGame extends Game {
 	}
 
 	public void dispose() {
-		font.dispose();
+		generator.dispose();
 		gameSkin.dispose();
 	}
 }

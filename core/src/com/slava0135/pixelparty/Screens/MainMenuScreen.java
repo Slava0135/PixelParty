@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,7 +28,9 @@ public class MainMenuScreen implements Screen {
         stage = new Stage(new ScreenViewport());
 
         Label title = new Label("PIXEL PARTY", PixelGame.gameSkin);
-        title.setStyle(new Label.LabelStyle(game.font, Color.BLACK));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = 30;
+        title.setStyle(new Label.LabelStyle(game.generator.generateFont(parameter), Color.BLACK));
         title.setAlignment(Align.center);
         title.setY(Gdx.graphics.getHeight()*0.9f);
         title.setWidth(Gdx.graphics.getWidth());
