@@ -21,7 +21,6 @@ public class MainMenuScreen implements Screen {
     OrthographicCamera camera;
     private PixelGame game;
     private Stage stage;
-    final static Color background = Color.WHITE;
     private Floor floor = new Floor();
     private float time = 0;
 
@@ -69,7 +68,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         time += delta;
-        Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
+        Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (time > 0.5) {
             floor.generateFloor();

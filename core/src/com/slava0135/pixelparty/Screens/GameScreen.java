@@ -13,26 +13,22 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.World.Floor;
-import com.slava0135.pixelparty.World.Palette;
 
 import java.util.Iterator;
 import java.util.Random;
 
 public class GameScreen implements Screen {
-    final static Color background = Color.WHITE;
-    final static int scale = 50;
-    final static float unitScale = 0.3f;
-    final static float unitRadius = unitScale;
-    final static int border = scale * 2;
-    final static float impulse = 0.1f;
-    final static int floorSize = scale * Floor.size;
-    final static int maxUnitAmount = 50;
+    private final static int SCALE = 50;
+    private final static float UNIT_SCALE = 0.3f;
+    private final static float UNIT_RADIUS = UNIT_SCALE;
+    private final static int BORDER = SCALE * 2;
+    private final static float IMPULSE = 0.1f;
+    private final static int FLOOR_SIZE = SCALE * Floor.size;
+    private final static int MAX_UNIT_AMOUNT = 50;
     private double speedMultiplier = 1.05;
     private double maxVelocity = 2;
     Integer score = 0;
@@ -50,7 +46,7 @@ public class GameScreen implements Screen {
     Array<Body> bodies = new Array<>();
     Body player;
     //timing
-    double time = 0;
+    private double time = 0;
     //staging
     Step step = Step.WAIT;
     enum Step {
@@ -71,13 +67,13 @@ public class GameScreen implements Screen {
 
         stage = new Stage(new ScreenViewport());
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, floorSize + 2 * border, floorSize + 2 * border);
+        camera.setToOrtho(false, FLOOR_SIZE + 2 * BORDER, FLOOR_SIZE + 2 * BORDER);
 
         world = new World(new Vector2(0, 0),false);
         generateBorders();
         floor.generateFloor();
 
-        spawnUnits(maxUnitAmount);
+        spawnUnits(MAX_UNIT_AMOUNT);
         spawnPlayer();
     }
 
@@ -86,11 +82,11 @@ public class GameScreen implements Screen {
         time += delta;
 
         //graphics
-        Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
+        Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
 
-        floor.draw(border, border, scale);
+        floor.draw(BORDER, BORDER, SCALE);
         for (Body body: bodies) {
             drawBody(body, Color.BLACK);
         }
@@ -122,8 +118,8 @@ public class GameScreen implements Screen {
                     maxVelocity *= speedMultiplier;
                     floor.generateFloor();
                     score++;
-                    if (bodies.size < maxUnitAmount) {
-                        spawnUnits(maxUnitAmount - bodies.size);
+                    if (bodies.size < MAX_UNIT_AMOUNT) {
+                        spawnUnits(MAX_UNIT_AMOUNT - bodies.size);
                     }
                 } else {
                     saveMove();
@@ -141,7 +137,7 @@ public class GameScreen implements Screen {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
-            moveBody(new Vector2((touchPos.x - border) / scale, (touchPos.y - border) / scale), player);
+            moveBody(new Vector2((touchPos.x - BORDER) / SCALE, (touchPos.y - BORDER) / SCALE), player);
         }
         if (isDead(player)) {
             finishGame();
@@ -150,7 +146,7 @@ public class GameScreen implements Screen {
 
     private FixtureDef getCircleFixture() {
         CircleShape circle = new CircleShape();
-        circle.setRadius(unitRadius);
+        circle.setRadius(UNIT_RADIUS);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
         fixtureDef.density = 0.5f;
@@ -164,7 +160,7 @@ public class GameScreen implements Screen {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         PolygonShape polygon = new PolygonShape();
-        polygon.setRadius(unitRadius);
+        polygon.setRadius(UNIT_RADIUS);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygon;
         fixtureDef.density = 1;
@@ -195,7 +191,7 @@ public class GameScreen implements Screen {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         FixtureDef fixture = getCircleFixture();
-        bodyDef.position.set(random.nextInt(floorSize) / (float) scale, random.nextInt(floorSize) / (float) scale);
+        bodyDef.position.set(random.nextInt(FLOOR_SIZE) / (float) SCALE, random.nextInt(FLOOR_SIZE) / (float) SCALE);
         player = world.createBody(bodyDef);
         player.createFixture(fixture);
     }
@@ -205,7 +201,7 @@ public class GameScreen implements Screen {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         FixtureDef fixture = getCircleFixture();
         for (int i = 0; i < amount; i++) {
-            bodyDef.position.set(random.nextInt(floorSize) / (float) scale, random.nextInt(floorSize) / (float) scale);
+            bodyDef.position.set(random.nextInt(FLOOR_SIZE) / (float) SCALE, random.nextInt(FLOOR_SIZE) / (float) SCALE);
             Body body = world.createBody(bodyDef);
             body.createFixture(fixture);
             bodies.add(body);
@@ -222,25 +218,25 @@ public class GameScreen implements Screen {
             switch (side) {
                 case 0: {
                     if (velX < maxVelocity) {
-                        body.applyLinearImpulse(impulse, 0, pos.x, pos.y, true);
+                        body.applyLinearImpulse(IMPULSE, 0, pos.x, pos.y, true);
                     }
                     break;
                 }
                 case 1: {
                     if (velX > -maxVelocity) {
-                        body.applyLinearImpulse(-impulse, 0, pos.x, pos.y, true);
+                        body.applyLinearImpulse(-IMPULSE, 0, pos.x, pos.y, true);
                     }
                     break;
                 }
                 case 2: {
                     if (velY < maxVelocity) {
-                        body.applyLinearImpulse(0, impulse, pos.x, pos.y, true);
+                        body.applyLinearImpulse(0, IMPULSE, pos.x, pos.y, true);
                     }
                     break;
                 }
                 default: {
                     if (velY > -maxVelocity) {
-                        body.applyLinearImpulse(0, -impulse, pos.x, pos.y, true);
+                        body.applyLinearImpulse(0, -IMPULSE, pos.x, pos.y, true);
                     }
                     break;
                 }
@@ -261,16 +257,16 @@ public class GameScreen implements Screen {
         double velY = velocity.y;
         Vector2 pos = body.getPosition();
         if (destination.x > pos.x && velX < maxVelocity) {
-            body.applyLinearImpulse(impulse, 0, pos.x, pos.y, true);
+            body.applyLinearImpulse(IMPULSE, 0, pos.x, pos.y, true);
         }
         if (destination.x < pos.x && velX > -maxVelocity) {
-            body.applyLinearImpulse(-impulse, 0, pos.x, pos.y,true);
+            body.applyLinearImpulse(-IMPULSE, 0, pos.x, pos.y,true);
         }
         if (destination.y > pos.y && velY < maxVelocity) {
-            body.applyLinearImpulse(0, impulse, pos.x, pos.y,true);
+            body.applyLinearImpulse(0, IMPULSE, pos.x, pos.y,true);
         }
         if (destination.y < pos.y && velY > -maxVelocity) {
-            body.applyLinearImpulse(0, -impulse, pos.x, pos.y,true);
+            body.applyLinearImpulse(0, -IMPULSE, pos.x, pos.y,true);
         }
     }
 
@@ -278,7 +274,7 @@ public class GameScreen implements Screen {
         Vector2 vector = body.getPosition();
         shapeRenderer.setColor(color);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.circle(vector.x * scale + border, vector.y * scale + border, unitRadius * scale);
+        shapeRenderer.circle(vector.x * SCALE + BORDER, vector.y * SCALE + BORDER, UNIT_RADIUS * SCALE);
         shapeRenderer.end();
     }
 
@@ -301,7 +297,7 @@ public class GameScreen implements Screen {
 
     private boolean isDead(Body body) {
         Vector2 vector = body.getPosition();
-        return !floor.isOnTile(vector.x, vector.y, unitRadius);
+        return !floor.isOnTile(vector.x, vector.y, UNIT_RADIUS);
     }
 
     private void finishGame() {

@@ -2,6 +2,7 @@ package com.slava0135.pixelparty;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,6 +13,7 @@ import com.slava0135.pixelparty.Screens.MainMenuScreen;
 public class PixelGame extends Game {
 
 	static public Skin gameSkin;
+	static public Color BACKGROUND = Color.WHITE;
 	public FreeTypeFontGenerator generator;
 
 	public void create() {

@@ -15,7 +15,6 @@ import com.slava0135.pixelparty.World.Palette;
 public class GameOverScreen implements Screen {
     private PixelGame game;
     private Stage stage;
-    final static Color background = Color.WHITE;
     private float time = 0;
 
     GameOverScreen(final PixelGame game, Integer score) {
@@ -40,7 +39,7 @@ public class GameOverScreen implements Screen {
     @Override
     public void render(float delta) {
         time += delta;
-        Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
+        Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
