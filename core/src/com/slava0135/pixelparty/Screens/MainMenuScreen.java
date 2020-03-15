@@ -23,12 +23,14 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     final static Color background = Color.WHITE;
     private Floor floor = new Floor();
+    private float time = 0;
 
     public MainMenuScreen(final PixelGame game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1000, 1000);
+        floor.generateFloor();
 
         Label title = new Label("PIXEL PARTY", PixelGame.gameSkin);
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -40,7 +42,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(title);
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        parameter.size = 50;
+        parameter.size = 100;
         textButtonStyle.font = game.generator.generateFont(parameter);
         textButtonStyle.fontColor = Color.BLACK;
         TextButton playButton = new TextButton("Play!", textButtonStyle);
@@ -66,9 +68,13 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        time += delta;
         Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        floor.generateFloor();
+        if (time > 1) {
+            floor.generateFloor();
+            time = 0;
+        }
         floor.draw(180, 180, 40);
         camera.update();
         stage.act();
