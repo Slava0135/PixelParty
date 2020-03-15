@@ -39,7 +39,11 @@ public class MainMenuScreen implements Screen {
         title.setWidth(Gdx.graphics.getWidth());
         stage.addActor(title);
 
-        TextButton playButton = new TextButton("Play!", PixelGame.gameSkin);
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        parameter.size = 50;
+        textButtonStyle.font = game.generator.generateFont(parameter);
+        textButtonStyle.fontColor = Color.BLACK;
+        TextButton playButton = new TextButton("Play!", textButtonStyle);
         playButton.setWidth(Gdx.graphics.getWidth()/2f);
         playButton.setPosition(Gdx.graphics.getWidth()/2f-playButton.getWidth()/2,Gdx.graphics.getHeight()/2f-playButton.getHeight()/2);
         playButton.addListener(new InputListener(){
@@ -53,7 +57,6 @@ public class MainMenuScreen implements Screen {
             }
         });
         stage.addActor(playButton);
-
     }
 
     @Override
