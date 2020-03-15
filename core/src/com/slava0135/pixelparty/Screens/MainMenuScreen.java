@@ -71,7 +71,7 @@ public class MainMenuScreen implements Screen {
         time += delta;
         Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if (time > 1) {
+        if (time > 0.5) {
             floor.generateFloor();
             time = 0;
         }

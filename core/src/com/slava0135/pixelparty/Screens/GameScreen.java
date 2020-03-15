@@ -29,6 +29,7 @@ public class GameScreen implements Screen {
     final static int unitAmount = 100;
     double speedMultiplier = 1.05;
     double maxVelocity = 2;
+    Integer score = 0;
     //rendering
     final PixelGame game;
     OrthographicCamera camera;
@@ -107,6 +108,7 @@ public class GameScreen implements Screen {
                     Step.length /= speedMultiplier;
                     maxVelocity *= speedMultiplier;
                     floor.generateFloor();
+                    score++;
                 } else {
                     saveMove();
                     eliminate();
@@ -279,7 +281,7 @@ public class GameScreen implements Screen {
     }
 
     private void finishGame() {
-        game.setScreen(new MainMenuScreen(game));
+        game.setScreen(new GameOverScreen(game, score));
         dispose();
     }
 
@@ -308,5 +310,6 @@ public class GameScreen implements Screen {
     public void dispose() {
         world.dispose();
         shapeRenderer.dispose();
+        stage.dispose();
     }
 }
