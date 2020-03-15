@@ -3,6 +3,7 @@ package com.slava0135.pixelparty;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.slava0135.pixelparty.Screens.MainMenuScreen;
 
 public class PixelGame extends Game {
 

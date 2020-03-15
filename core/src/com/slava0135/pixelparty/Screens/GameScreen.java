@@ -1,4 +1,4 @@
-package com.slava0135.pixelparty;
+package com.slava0135.pixelparty.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.world.Floor;
 
 import java.util.Iterator;
@@ -25,7 +26,7 @@ public class GameScreen implements Screen {
     final static int floorSize = scale * Floor.size;
     final static int unitAmount = 100;
     double speedMultiplier = 1.05;
-    double maxVelocity = 1;
+    double maxVelocity = 2;
     //rendering
     final PixelGame game;
     OrthographicCamera camera;
@@ -42,7 +43,7 @@ public class GameScreen implements Screen {
     Stage stage = Stage.WAIT;
     enum Stage {
         WAIT, RUN, BREAK;
-        public static double length = 5;
+        public static double length = 2;
         private static Stage[] vals = values();
         public Stage next() {
             return vals[(this.ordinal() + 1) % vals.length];
@@ -129,7 +130,7 @@ public class GameScreen implements Screen {
         fixtureDef.shape = circle;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0;
-        fixtureDef.restitution = 0;
+        fixtureDef.restitution = 1;
         circle.dispose();
         return fixtureDef;
     }
