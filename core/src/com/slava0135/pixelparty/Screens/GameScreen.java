@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.World.Floor;
 
@@ -31,6 +33,7 @@ public class GameScreen implements Screen {
     final PixelGame game;
     OrthographicCamera camera;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
+    Stage stage;
     //data
     Random random = new Random();
     World world;
@@ -40,12 +43,12 @@ public class GameScreen implements Screen {
     //timing
     double time = 0;
     //staging
-    Stage stage = Stage.WAIT;
-    enum Stage {
+    Step step = Step.WAIT;
+    enum Step {
         WAIT, RUN, BREAK;
         public static double length = 2;
-        private static Stage[] vals = values();
-        public Stage next() {
+        private static Step[] vals = values();
+        public Step next() {
             return vals[(this.ordinal() + 1) % vals.length];
         }
     }
@@ -53,6 +56,7 @@ public class GameScreen implements Screen {
     public GameScreen(final PixelGame game) {
         this.game = game;
 
+        stage = new Stage(new ScreenViewport());
         camera = new OrthographicCamera();
         camera.setToOrtho(false, floorSize + 2 * border, floorSize + 2 * border);
 
@@ -78,10 +82,12 @@ public class GameScreen implements Screen {
             drawBody(body, Color.BLACK);
         }
         drawBody(player, Color.WHITE);
+        stage.act();
+        stage.draw();
         world.step(1/60f, 6, 2);
         //logic
-        boolean isOver = time > Stage.length;
-        switch(stage) {
+        boolean isOver = time > Step.length;
+        switch(step) {
             case WAIT: {
                 if (!isOver) {
                     randomMove();
@@ -98,7 +104,7 @@ public class GameScreen implements Screen {
             }
             case BREAK: {
                 if (isOver) {
-                    Stage.length /= speedMultiplier;
+                    Step.length /= speedMultiplier;
                     maxVelocity *= speedMultiplier;
                     floor.generateFloor();
                 } else {
@@ -110,7 +116,7 @@ public class GameScreen implements Screen {
         }
         if (isOver) {
             time = 0;
-            stage = stage.next();
+            step = step.next();
         }
         if (Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
@@ -273,6 +279,8 @@ public class GameScreen implements Screen {
     }
 
     private void finishGame() {
+        game.setScreen(new MainMenuScreen(game));
+        dispose();
     }
 
     @Override
@@ -281,6 +289,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
