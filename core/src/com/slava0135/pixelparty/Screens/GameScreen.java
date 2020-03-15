@@ -273,7 +273,6 @@ public class GameScreen implements Screen {
     }
 
     private void finishGame() {
-
     }
 
     @Override

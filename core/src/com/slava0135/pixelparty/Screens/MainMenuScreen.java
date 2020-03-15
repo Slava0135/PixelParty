@@ -5,18 +5,60 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.slava0135.pixelparty.PixelGame;
 
 public class MainMenuScreen implements Screen {
 
-    final PixelGame game;
-    OrthographicCamera camera;
+    PixelGame game;
+    private Stage stage;
     final static Color background = Color.WHITE;
 
     public MainMenuScreen(final PixelGame game) {
         this.game = game;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1000, 1000);
+        stage = new Stage(new ScreenViewport());
+
+        Label title = new Label("Title Screen", PixelGame.gameSkin);
+        title.setAlignment(Align.center);
+        title.setY(Gdx.graphics.getHeight()*2f/3);
+        title.setWidth(Gdx.graphics.getWidth());
+        stage.addActor(title);
+
+        TextButton playButton = new TextButton("Play!", PixelGame.gameSkin);
+        playButton.setWidth(Gdx.graphics.getWidth()/2f);
+        playButton.setPosition(Gdx.graphics.getWidth()/2f-playButton.getWidth()/2,Gdx.graphics.getHeight()/2f-playButton.getHeight()/2);
+        playButton.addListener(new InputListener(){
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new GameScreen(game));
+            }
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        stage.addActor(playButton);
+
+        TextButton optionsButton = new TextButton("Options", PixelGame.gameSkin);
+        optionsButton.setWidth(Gdx.graphics.getWidth()/2f);
+        optionsButton.setPosition(Gdx.graphics.getWidth()/2f-optionsButton.getWidth()/2,Gdx.graphics.getHeight()/4f-optionsButton.getHeight()/2);
+        optionsButton.addListener(new InputListener(){
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new OptionScreen(game));
+            }
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        stage.addActor(optionsButton);
     }
 
     @Override
@@ -27,19 +69,8 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.font.setColor(Color.BLACK);
-        game.font.draw(game.batch, "Welcome to Pixel Party!", 400, 525);
-        game.font.draw(game.batch, "Press anywhere to begin!", 400, 475);
-        game.batch.end();
-
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
-            dispose();
-        }
+        stage.act();
+        stage.draw();
     }
 
     @Override
