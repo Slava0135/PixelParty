@@ -27,31 +27,31 @@ public class GameScreen implements Screen {
     private final static float UNIT_RADIUS = UNIT_SCALE;
     private final static int BORDER = SCALE * 2;
     private final static float IMPULSE = 0.1f;
-    private final static int FLOOR_SIZE = SCALE * Floor.size;
+    private final static int FLOOR_SIZE = SCALE * Floor.SIZE;
     private final static int MAX_UNIT_AMOUNT = 50;
     private double speedMultiplier = 1.05;
     private double maxVelocity = 2;
     Integer score = 0;
-    //rendering
+
     final PixelGame game;
     OrthographicCamera camera;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Stage stage;
     SpriteBatch batch = new SpriteBatch();
     BitmapFont font;
-    //data
+
     Random random = new Random();
     World world;
     Floor floor = new Floor();
     Array<Body> bodies = new Array<>();
     Body player;
-    //timing
+
     private double time = 0;
-    //staging
+
     Step step = Step.WAIT;
     enum Step {
         WAIT, RUN, BREAK;
-        public static double length = 2;
+        public static double length = 2.5;
         private static Step[] vals = values();
         public Step next() {
             return vals[(this.ordinal() + 1) % vals.length];
@@ -81,20 +81,23 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         time += delta;
 
-        //graphics
         Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
 
         floor.draw(BORDER, BORDER, SCALE);
         for (Body body: bodies) {
-            drawBody(body, Color.BLACK);
+            drawBody(body, Color.BLACK, Color.BLACK);
         }
-        drawBody(player, Color.WHITE);
+        if (step == Step.WAIT) {
+            drawBody(player, Color.WHITE, Color.BLACK);
+        } else {
+            drawBody(player, floor.currentColor.color, Color.BLACK);
+        }
         stage.act();
         stage.draw();
         world.step(1/60f, 6, 2);
-        //logic
+
         boolean isOver = time > Step.length;
         switch(step) {
             case WAIT: {
@@ -166,21 +169,21 @@ public class GameScreen implements Screen {
         fixtureDef.density = 1;
         fixtureDef.friction = 0;
         fixtureDef.restitution = 1;
-        polygon.setAsBox(Floor.size / 2f - 0.3f, Floor.size / 2f - 0.3f);
+        polygon.setAsBox(Floor.SIZE / 2f - 0.3f, Floor.SIZE / 2f - 0.3f);
 
-        bodyDef.position.set(Floor.size / 2f, Floor.size * 3f / 2);
+        bodyDef.position.set(Floor.SIZE / 2f, Floor.SIZE * 3f / 2);
         Body up = world.createBody(bodyDef);
         up.createFixture(fixtureDef);
 
-        bodyDef.position.set(Floor.size * 3f / 2, Floor.size / 2f);
+        bodyDef.position.set(Floor.SIZE * 3f / 2, Floor.SIZE / 2f);
         Body right = world.createBody(bodyDef);
         right.createFixture(fixtureDef);
 
-        bodyDef.position.set(-Floor.size / 2f, Floor.size / 2f);
+        bodyDef.position.set(-Floor.SIZE / 2f, Floor.SIZE / 2f);
         Body left = world.createBody(bodyDef);
         left.createFixture(fixtureDef);
 
-        bodyDef.position.set(Floor.size / 2f, -Floor.size / 2f);
+        bodyDef.position.set(Floor.SIZE / 2f, -Floor.SIZE / 2f);
         Body down = world.createBody(bodyDef);
         down.createFixture(fixtureDef);
 
@@ -270,11 +273,13 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void drawBody(Body body, Color color) {
+    private void drawBody(Body body, Color color, Color borderColor) {
         Vector2 vector = body.getPosition();
-        shapeRenderer.setColor(color);
+        shapeRenderer.setColor(borderColor);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.circle(vector.x * SCALE + BORDER, vector.y * SCALE + BORDER, UNIT_RADIUS * SCALE);
+        shapeRenderer.setColor(color);
+        shapeRenderer.circle(vector.x * SCALE + BORDER, vector.y * SCALE + BORDER, UNIT_RADIUS * SCALE * 0.5f);
         shapeRenderer.end();
     }
 

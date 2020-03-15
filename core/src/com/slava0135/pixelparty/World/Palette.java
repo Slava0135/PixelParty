@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Random;
 
 public enum Palette {
-    //WHITE(Color.WHITE, "White"), is background (null)
     GRAY(Color.GRAY, "Gray"),
     LIME(Color.LIME, "Lime"),
     RED(Color.RED, "Red"),
