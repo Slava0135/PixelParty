@@ -16,16 +16,17 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.slava0135.pixelparty.PixelGame;
+import com.slava0135.pixelparty.World.Fall;
 import com.slava0135.pixelparty.World.Floor;
 
 import java.util.Iterator;
 import java.util.Random;
 
 public class GameScreen implements Screen {
-    private final static int SCALE = 50;
-    private final static float UNIT_SCALE = 0.3f;
-    private final static float UNIT_RADIUS = UNIT_SCALE;
-    private final static int BORDER = SCALE * 2;
+    public final static int SCALE = 50;
+    public final static float UNIT_SCALE = 0.3f;
+    public final static float UNIT_RADIUS = UNIT_SCALE;
+    public final static int BORDER = SCALE * 2;
     private final static float IMPULSE = 0.1f;
     private final static int FLOOR_SIZE = SCALE * Floor.SIZE;
     private final static int MAX_UNIT_AMOUNT = 50;
@@ -45,13 +46,14 @@ public class GameScreen implements Screen {
     Floor floor = new Floor();
     Array<Body> bodies = new Array<>();
     Body player;
+    Fall fall = new Fall();
 
     private double time = 0;
 
     Step step = Step.WAIT;
     enum Step {
         WAIT, RUN, BREAK;
-        public static double length = 2.5;
+        public static double length = 3;
         private static Step[] vals = values();
         public Step next() {
             return vals[(this.ordinal() + 1) % vals.length];
@@ -127,6 +129,7 @@ public class GameScreen implements Screen {
                 } else {
                     saveMove();
                     eliminate();
+                    fall.drawAll(delta);
                     printColor();
                 }
                 break;
@@ -154,7 +157,7 @@ public class GameScreen implements Screen {
         fixtureDef.shape = circle;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0;
-        fixtureDef.restitution = 1;
+        fixtureDef.restitution = 0.7f;
         circle.dispose();
         return fixtureDef;
     }
@@ -294,6 +297,7 @@ public class GameScreen implements Screen {
         for (Iterator<Body> iter = bodies.iterator(); iter.hasNext(); ) {
             Body body = iter.next();
             if (isDead(body)) {
+                fall.addUnit(Color.BLACK, Color.BLACK, new Vector2(body.getPosition()));
                 world.destroyBody(body);
                 bodies.removeValue(body, true);
             }
