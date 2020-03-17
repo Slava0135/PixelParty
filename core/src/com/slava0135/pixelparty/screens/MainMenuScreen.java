@@ -1,4 +1,4 @@
-package com.slava0135.pixelparty.Screens;
+package com.slava0135.pixelparty.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.slava0135.pixelparty.PixelGame;
-import com.slava0135.pixelparty.World.Floor;
+import com.slava0135.pixelparty.world.Floor;
 
 public class MainMenuScreen implements Screen {
 

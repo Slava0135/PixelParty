@@ -1,4 +1,4 @@
-package com.slava0135.pixelparty.World;
+package com.slava0135.pixelparty.world;
 
 import com.badlogic.gdx.graphics.Color;
 

@@ -1,4 +1,4 @@
-package com.slava0135.pixelparty.World;
+package com.slava0135.pixelparty.world;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.Iterator;
 
-import static com.slava0135.pixelparty.Screens.GameScreen.*;
+import static com.slava0135.pixelparty.screens.GameScreen.*;
 
 public class Fall {
     private final Array<Unit> units = new Array<>();

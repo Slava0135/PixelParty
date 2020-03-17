@@ -1,8 +1,7 @@
-package com.slava0135.pixelparty.Screens;
+package com.slava0135.pixelparty.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.slava0135.pixelparty.PixelGame;
-import com.slava0135.pixelparty.World.Palette;
+import com.slava0135.pixelparty.world.Palette;
 
 public class GameOverScreen implements Screen {
     private PixelGame game;

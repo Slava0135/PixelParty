@@ -1,4 +1,4 @@
-package com.slava0135.pixelparty.Screens;
+package com.slava0135.pixelparty.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -16,8 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.slava0135.pixelparty.PixelGame;
-import com.slava0135.pixelparty.World.Fall;
-import com.slava0135.pixelparty.World.Floor;
+import com.slava0135.pixelparty.world.Fall;
+import com.slava0135.pixelparty.world.Floor;
 
 import java.util.Iterator;
 import java.util.Random;
