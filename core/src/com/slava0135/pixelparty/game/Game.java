@@ -89,7 +89,7 @@ public class Game implements Disposable {
     }
 
     public boolean isFinished() {
-        return timeSinceDeath < FINISHING_TIME;
+        return timeSinceDeath > FINISHING_TIME;
     };
 
     public Integer getScore() {

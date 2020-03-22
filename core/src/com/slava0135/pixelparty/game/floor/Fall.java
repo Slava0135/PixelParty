@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.Iterator;
 
+import static com.slava0135.pixelparty.game.world.GameWorld.UNIT_RADIUS;
 import static com.slava0135.pixelparty.screens.GameScreen.*;
 
 public class Fall {
