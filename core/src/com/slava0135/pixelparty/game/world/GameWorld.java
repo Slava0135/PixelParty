@@ -19,9 +19,10 @@ public class GameWorld implements Disposable {
     private Floor floor;
     private Fall fall;
 
+    public final static float UNIT_SCALE = 0.3f;
+    public final static float UNIT_RADIUS = UNIT_SCALE;
+
     private final static float IMPULSE = 0.1f;
-    private final static float UNIT_SCALE = 0.3f;
-    private final static float UNIT_RADIUS = UNIT_SCALE;
     private final static int MAX_UNIT_AMOUNT = 50;
 
     private double maxVelocity = 2;
@@ -62,6 +63,18 @@ public class GameWorld implements Disposable {
             }
         }
         return true;
+    }
+
+    public Array<Vector2> getUnitsPositions() {
+        Array<Vector2> array = new Array<>();
+        for (Body body: bodies) {
+            array.add(new Vector2(body.getPosition()));
+        }
+        return array;
+    }
+
+    public Vector2 getPlayerPosition() {
+        return new Vector2(player.getPosition());
     }
 
     private FixtureDef getCircleFixture() {
