@@ -1,6 +1,7 @@
 package com.slava0135.pixelparty.game.world;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -8,10 +9,12 @@ import com.badlogic.gdx.utils.Disposable;
 import com.slava0135.pixelparty.game.GameStage;
 import com.slava0135.pixelparty.game.floor.Fall;
 import com.slava0135.pixelparty.game.floor.Floor;
+import com.slava0135.pixelparty.screens.GameScreen;
 
 import java.util.Iterator;
 import java.util.Random;
 
+import static com.slava0135.pixelparty.game.Game.MAX_UNIT_AMOUNT;
 import static com.slava0135.pixelparty.game.world.WorldGenerator.generateWorld;
 
 public class GameWorld implements Disposable {
@@ -23,15 +26,14 @@ public class GameWorld implements Disposable {
     public final static float UNIT_RADIUS = UNIT_SCALE;
 
     private final static float IMPULSE = 0.1f;
-    private final static int MAX_UNIT_AMOUNT = 50;
 
     private double maxVelocity = 2;
 
-    Random random = new Random();
+    private Random random = new Random();
 
-    FixtureDef fixture;
-    Array<Body> bodies = new Array<>();
-    Body player;
+    private FixtureDef fixture;
+    private Array<Body> bodies = new Array<>();
+    private Body player;
 
     GameWorld(Floor floor, Fall fall) {
         world = generateWorld();
@@ -66,7 +68,7 @@ public class GameWorld implements Disposable {
         return true;
     }
 
-    public Array<Vector2> getUnitsPositions() {
+    public Array<Vector2> getBodiesPositions() {
         Array<Vector2> array = new Array<>();
         for (Body body: bodies) {
             array.add(new Vector2(body.getPosition()));
