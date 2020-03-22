@@ -87,7 +87,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
 
-        floor.draw(BORDER, BORDER, SCALE);
+        floor.draw(BORDER, BORDER, SCALE, shapeRenderer);
         for (Body body: bodies) {
             drawBody(body, Color.BLACK, Color.BLACK);
         }
@@ -166,13 +166,12 @@ public class GameScreen implements Screen {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         PolygonShape polygon = new PolygonShape();
-        polygon.setRadius(UNIT_RADIUS);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygon;
         fixtureDef.density = 1;
         fixtureDef.friction = 0;
         fixtureDef.restitution = 1;
-        polygon.setAsBox(Floor.SIZE / 2f - 0.3f, Floor.SIZE / 2f - 0.3f);
+        polygon.setAsBox(Floor.SIZE / 2f, Floor.SIZE / 2f);
 
         bodyDef.position.set(Floor.SIZE / 2f, Floor.SIZE * 3f / 2);
         Body up = world.createBody(bodyDef);
