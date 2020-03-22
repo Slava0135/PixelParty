@@ -29,8 +29,8 @@ public class GameWorld implements Disposable {
 
     private Random random = new Random();
 
-    private FixtureDef fixture;
-    private Array<Body> bodies = new Array<>();
+    private final FixtureDef fixture;
+    private final Array<Body> bodies = new Array<>();
     private Body player;
 
     public GameWorld(Floor floor, Fall fall) {
@@ -57,6 +57,7 @@ public class GameWorld implements Disposable {
                 saveMove();
                 eliminate();
                 if (isDead(player)) {
+                    world.destroyBody(player);
                     return false;
                 }
                 break;

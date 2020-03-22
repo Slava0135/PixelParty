@@ -36,8 +36,8 @@ public class Game implements Disposable {
 
     private float time = 0;
     private Integer score = 0;
-    private double speedMultiplier = 1.05;
-    private boolean isGameOver = false;
+    private float speedMultiplier = 1.05f;
+    private boolean gameIsOver = false;
     private float roundLength = 3;
 
     Game(PixelGame game) {
@@ -58,14 +58,22 @@ public class Game implements Disposable {
     public void update(Vector2 click, float delta) {
         boolean isOver = time > roundLength;
         switch(stage) {
-            case WAIT: {
-
-            }
+            case WAIT: break;
             case RUN: {
-
+                if (isOver) {
+                    floor.throwFloor();
+                }
+                break;
             }
             case BREAK: {
-
+                if (isOver) {
+                    floor.generateFloor();
+                    score++;
+                    world.speedUp(speedMultiplier);
+                    roundLength /= speedMultiplier;
+                    world.spawnUnits(MAX_UNIT_AMOUNT - world.getBodiesPositions().size);
+                }
+                break;
             }
         }
         if (isOver) {
@@ -73,7 +81,7 @@ public class Game implements Disposable {
             stage = stage.next();
         }
         if (!world.update(stage, click)) {
-            isGameOver = true;
+            gameIsOver = true;
         }
     }
 
@@ -81,6 +89,8 @@ public class Game implements Disposable {
         Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
+
+        if (stage != GameStage.WAIT) printColor();
 
         fall.drawAll(delta);
         floor.draw(BORDER, BORDER, SCALE, shapeRenderer);
@@ -91,10 +101,12 @@ public class Game implements Disposable {
         for (Vector2 position: world.getBodiesPositions()) {
             drawBody(position, Color.BLACK, Color.BLACK);
         }
-        if (stage == GameStage.WAIT) {
-            drawBody(world.getPlayerPosition(), Color.WHITE, Color.BLACK);
-        } else {
-            drawBody(world.getPlayerPosition(), floor.currentColor.color, Color.BLACK);
+        if (!gameIsOver) {
+            if (stage == GameStage.WAIT) {
+                drawBody(world.getPlayerPosition(), Color.WHITE, Color.BLACK);
+            } else {
+                drawBody(world.getPlayerPosition(), floor.currentColor.color, Color.BLACK);
+            }
         }
     }
 
