@@ -42,7 +42,7 @@ public class GameWorld implements Disposable {
         spawnUnits(MAX_UNIT_AMOUNT);
     }
 
-    public boolean update(GameStage stage) {
+    public boolean update(GameStage stage, Vector2 click) {
         world.step(1/60f, 6, 2);
         switch (stage) {
             case RUN: {
@@ -62,6 +62,7 @@ public class GameWorld implements Disposable {
                 break;
             }
         }
+        moveBody(click, player);
         return true;
     }
 
