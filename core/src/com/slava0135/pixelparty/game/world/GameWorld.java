@@ -1,7 +1,6 @@
 package com.slava0135.pixelparty.game.world;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.slava0135.pixelparty.game.GameStage;
 import com.slava0135.pixelparty.game.floor.Fall;
 import com.slava0135.pixelparty.game.floor.Floor;
-import com.slava0135.pixelparty.screens.GameScreen;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -35,7 +33,7 @@ public class GameWorld implements Disposable {
     private Array<Body> bodies = new Array<>();
     private Body player;
 
-    GameWorld(Floor floor, Fall fall) {
+    public GameWorld(Floor floor, Fall fall) {
         world = generateWorld();
         fixture = getCircleFixture();
         this.floor = floor;
