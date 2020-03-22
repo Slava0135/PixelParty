@@ -21,7 +21,7 @@ import static com.slava0135.pixelparty.screens.GameScreen.SCALE;
 
 public class Game implements Disposable {
 
-    public final static int MAX_UNIT_AMOUNT = 50;
+    public final static int MAX_UNIT_AMOUNT = 100;
     private final static float FINISHING_TIME = 3;
 
     private GameWorld world;

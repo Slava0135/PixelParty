@@ -90,7 +90,7 @@ public class GameWorld implements Disposable {
         fixtureDef.shape = circle;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0;
-        fixtureDef.restitution = 0.7f;
+        fixtureDef.restitution = 1f;
         circle.dispose();
         return fixtureDef;
     }
