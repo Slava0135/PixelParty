@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.slava0135.pixelparty.game.GameStage;
+import com.slava0135.pixelparty.game.floor.Fall;
 import com.slava0135.pixelparty.game.floor.Floor;
 
 import java.util.Iterator;
@@ -16,6 +17,7 @@ import static com.slava0135.pixelparty.game.world.WorldGenerator.generateWorld;
 public class GameWorld implements Disposable {
     private World world;
     private Floor floor;
+    private Fall fall;
 
     private final static float IMPULSE = 0.1f;
     private final static float UNIT_SCALE = 0.3f;
@@ -30,15 +32,16 @@ public class GameWorld implements Disposable {
     Array<Body> bodies = new Array<>();
     Body player;
 
-    GameWorld(Floor floor) {
+    GameWorld(Floor floor, Fall fall) {
         world = generateWorld();
         fixture = getCircleFixture();
         this.floor = floor;
+        this.fall = fall;
         spawnPlayer();
         spawnUnits(MAX_UNIT_AMOUNT);
     }
 
-    public void update(GameStage stage) {
+    public boolean update(GameStage stage) {
         world.step(1/60f, 6, 2);
         switch (stage) {
             case RUN: {
@@ -52,9 +55,13 @@ public class GameWorld implements Disposable {
             case BREAK: {
                 saveMove();
                 eliminate();
+                if (isDead(player)) {
+                    return false;
+                }
                 break;
             }
         }
+        return true;
     }
 
     private FixtureDef getCircleFixture() {
@@ -110,26 +117,22 @@ public class GameWorld implements Disposable {
                 case 0: {
                     if (velX < maxVelocity) {
                         body.applyLinearImpulse(IMPULSE, 0, pos.x, pos.y, true);
-                    }
-                    break;
+                    } break;
                 }
                 case 1: {
                     if (velX > -maxVelocity) {
                         body.applyLinearImpulse(-IMPULSE, 0, pos.x, pos.y, true);
-                    }
-                    break;
+                    } break;
                 }
                 case 2: {
                     if (velY < maxVelocity) {
                         body.applyLinearImpulse(0, IMPULSE, pos.x, pos.y, true);
-                    }
-                    break;
+                    } break;
                 }
                 default: {
                     if (velY > -maxVelocity) {
                         body.applyLinearImpulse(0, -IMPULSE, pos.x, pos.y, true);
-                    }
-                    break;
+                    } break;
                 }
             }
         }
@@ -158,6 +161,7 @@ public class GameWorld implements Disposable {
         for (Iterator<Body> iter = bodies.iterator(); iter.hasNext(); ) {
             Body body = iter.next();
             if (isDead(body)) {
+                fall.addUnit(Color.BLACK, Color.BLACK, new Vector2(body.getPosition()));
                 world.destroyBody(body);
                 bodies.removeValue(body, true);
             }
