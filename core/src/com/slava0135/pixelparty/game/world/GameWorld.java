@@ -26,6 +26,7 @@ public class GameWorld implements Disposable {
     private final static float IMPULSE = 0.1f;
 
     private double maxVelocity = 2;
+    private boolean playerIsAlive = true;
 
     private Random random = new Random();
 
@@ -58,12 +59,15 @@ public class GameWorld implements Disposable {
                 eliminate();
                 if (isDead(player)) {
                     world.destroyBody(player);
+                    playerIsAlive = true;
                     return false;
                 }
                 break;
             }
         }
-        moveBody(click, player);
+        if (playerIsAlive) {
+            moveBody(click, player);
+        }
         return true;
     }
 

@@ -82,8 +82,9 @@ public class Game implements Disposable {
             stage = stage.next();
         }
         boolean playerIsAlive = world.update(stage, new Vector2((click.x - BORDER) / SCALE, (click.y - BORDER) / SCALE));
-        if (!playerIsAlive) {
+        if (!gameIsOver && !playerIsAlive) {
             gameIsOver = true;
+            fall.addUnit(Color.BLACK, PixelGame.BACKGROUND, world.getPlayerPosition());
         }
         if (gameIsOver) {
             timeSinceDeath += delta;
