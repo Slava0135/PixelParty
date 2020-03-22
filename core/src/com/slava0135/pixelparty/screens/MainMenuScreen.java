@@ -20,14 +20,14 @@ import com.slava0135.pixelparty.game.floor.Floor;
 public class MainMenuScreen implements Screen {
 
     OrthographicCamera camera;
-    private PixelGame game;
+    private PixelGame core;
     private Stage stage;
     private Floor floor = new Floor();
     private float time = 0;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public MainMenuScreen(final PixelGame game) {
-        this.game = game;
+        this.core = game;
         stage = new Stage(new ScreenViewport());
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1000, 1000);

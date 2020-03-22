@@ -12,12 +12,12 @@ import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.game.floor.Palette;
 
 public class GameOverScreen implements Screen {
-    private PixelGame game;
+    private PixelGame core;
     private Stage stage;
     private float time = 0;
 
     GameOverScreen(final PixelGame game, Integer score) {
-        this.game = game;
+        this.core = game;
         stage = new Stage(new ScreenViewport());
 
         Label title = new Label("Your Score:\n\n" + score, PixelGame.gameSkin);
@@ -43,7 +43,7 @@ public class GameOverScreen implements Screen {
         stage.act();
         stage.draw();
         if (Gdx.input.isTouched() && time > 1) {
-            game.setScreen(new MainMenuScreen(game));
+            core.setScreen(new MainMenuScreen(core));
             dispose();
         }
     }

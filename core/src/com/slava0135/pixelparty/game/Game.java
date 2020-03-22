@@ -16,14 +16,13 @@ import com.slava0135.pixelparty.game.floor.Floor;
 import com.slava0135.pixelparty.game.world.GameWorld;
 
 import static com.slava0135.pixelparty.game.world.GameWorld.UNIT_RADIUS;
+import static com.slava0135.pixelparty.screens.GameScreen.BORDER;
+import static com.slava0135.pixelparty.screens.GameScreen.SCALE;
 
 public class Game implements Disposable {
 
     public final static int MAX_UNIT_AMOUNT = 50;
     private final static float FINISHING_TIME = 3;
-
-    public final static int SCALE = 50;
-    public final static int BORDER = SCALE * 2;
 
     private GameWorld world;
     private GameStage stage;
@@ -42,13 +41,12 @@ public class Game implements Disposable {
     private float roundLength = 3;
     private float timeSinceDeath = 0;
 
-    Game(PixelGame game) {
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Floor.SIZE * SCALE + 2 * BORDER, Floor.SIZE * SCALE + 2 * BORDER);
+    public Game(PixelGame core, OrthographicCamera camera) {
+        this.camera = camera;
 
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 100;
-        font = game.generator.generateFont(parameter);
+        font = core.generator.generateFont(parameter);
 
         floor = new Floor();
         floor.generateFloor();
@@ -93,6 +91,10 @@ public class Game implements Disposable {
     public boolean isFinished() {
         return timeSinceDeath < FINISHING_TIME;
     };
+
+    public Integer getScore() {
+        return score;
+    }
 
     public void draw(float delta) {
         Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
