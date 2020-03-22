@@ -16,8 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.slava0135.pixelparty.PixelGame;
-import com.slava0135.pixelparty.world.Fall;
-import com.slava0135.pixelparty.world.Floor;
+import com.slava0135.pixelparty.world.floor.Fall;
+import com.slava0135.pixelparty.world.floor.Floor;
 
 import java.util.Iterator;
 import java.util.Random;

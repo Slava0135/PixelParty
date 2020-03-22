@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.slava0135.pixelparty.PixelGame;
-import com.slava0135.pixelparty.world.Palette;
+import com.slava0135.pixelparty.world.floor.Palette;
 
 public class GameOverScreen implements Screen {
     private PixelGame game;

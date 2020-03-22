@@ -2,6 +2,7 @@ package com.slava0135.pixelparty.world;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.slava0135.pixelparty.world.floor.Floor;
 
 class WorldGenerator {
     public static World generateWorld() {

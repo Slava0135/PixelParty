@@ -4,13 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.slava0135.pixelparty.world.floor.Floor;
 
 import java.util.Random;
 
 import static com.slava0135.pixelparty.world.WorldGenerator.generateWorld;
 
 public class GameWorld implements Disposable {
-    World world;
+    private World world;
 
     private final static float IMPULSE = 0.1f;
     public final static float UNIT_SCALE = 0.3f;
@@ -31,6 +32,10 @@ public class GameWorld implements Disposable {
         fixture = getCircleFixture();
         spawnPlayer();
         spawnUnits(MAX_UNIT_AMOUNT);
+    }
+
+    public void update() {
+        world.step(1/60f, 6, 2);
     }
 
     private FixtureDef getCircleFixture() {
@@ -61,6 +66,32 @@ public class GameWorld implements Disposable {
             Body body = world.createBody(bodyDef);
             body.createFixture(fixture);
             bodies.add(body);
+        }
+    }
+
+    private void saveMove(Floor floor) {
+        for (Body body: bodies) {
+            Vector2 pos = body.getPosition();
+            moveBody(floor.findClosest(pos.x, pos.y), body);
+        }
+    }
+
+    private void moveBody(Vector2 destination, Body body) {
+        Vector2 velocity = body.getLinearVelocity();
+        double velX = velocity.x;
+        double velY = velocity.y;
+        Vector2 pos = body.getPosition();
+        if (destination.x > pos.x && velX < maxVelocity) {
+            body.applyLinearImpulse(IMPULSE, 0, pos.x, pos.y, true);
+        }
+        if (destination.x < pos.x && velX > -maxVelocity) {
+            body.applyLinearImpulse(-IMPULSE, 0, pos.x, pos.y,true);
+        }
+        if (destination.y > pos.y && velY < maxVelocity) {
+            body.applyLinearImpulse(0, IMPULSE, pos.x, pos.y,true);
+        }
+        if (destination.y < pos.y && velY > -maxVelocity) {
+            body.applyLinearImpulse(0, -IMPULSE, pos.x, pos.y,true);
         }
     }
 
