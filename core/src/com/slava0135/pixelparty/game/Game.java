@@ -80,7 +80,8 @@ public class Game implements Disposable {
             time = 0;
             stage = stage.next();
         }
-        if (gameIsOver || !world.update(stage, click)) {
+        boolean playerIsAlive = world.update(stage, new Vector2((click.x - BORDER) / SCALE, (click.y - BORDER) / SCALE));
+        if (!playerIsAlive) {
             gameIsOver = true;
         }
         if (gameIsOver) {
