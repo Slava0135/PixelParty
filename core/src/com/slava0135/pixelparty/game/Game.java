@@ -20,6 +20,7 @@ import static com.slava0135.pixelparty.game.world.GameWorld.UNIT_RADIUS;
 public class Game implements Disposable {
 
     public final static int MAX_UNIT_AMOUNT = 50;
+    private final static float FINISHING_TIME = 3;
 
     public final static int SCALE = 50;
     public final static int BORDER = SCALE * 2;
@@ -39,6 +40,7 @@ public class Game implements Disposable {
     private float speedMultiplier = 1.05f;
     private boolean gameIsOver = false;
     private float roundLength = 3;
+    private float timeSinceDeath = 0;
 
     Game(PixelGame game) {
         camera = new OrthographicCamera();
@@ -80,10 +82,17 @@ public class Game implements Disposable {
             time = 0;
             stage = stage.next();
         }
-        if (!world.update(stage, click)) {
+        if (gameIsOver || !world.update(stage, click)) {
             gameIsOver = true;
         }
+        if (gameIsOver) {
+            timeSinceDeath += delta;
+        }
     }
+
+    public boolean isFinished() {
+        return timeSinceDeath < FINISHING_TIME;
+    };
 
     public void draw(float delta) {
         Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
