@@ -22,7 +22,7 @@ import static com.slava0135.pixelparty.screens.GameScreen.SCALE;
 public class Game implements Disposable {
 
     public final static int MAX_UNIT_AMOUNT = 50;
-    private final static float FINISHING_TIME = 0.5f;
+    private final static float FINISHING_TIME = 3;
 
     private GameWorld world;
     private GameStage stage;
@@ -84,7 +84,7 @@ public class Game implements Disposable {
         boolean playerIsAlive = world.update(stage, new Vector2((click.x - BORDER) / SCALE, (click.y - BORDER) / SCALE));
         if (!gameIsOver && !playerIsAlive) {
             gameIsOver = true;
-            fall.addUnit(Color.BLACK, PixelGame.BACKGROUND, world.getPlayerPosition());
+            fall.addUnit(PixelGame.BACKGROUND, Color.BLACK, world.getPlayerPosition());
         }
         if (gameIsOver) {
             timeSinceDeath += delta;
