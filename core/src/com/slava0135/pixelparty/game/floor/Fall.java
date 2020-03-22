@@ -12,7 +12,7 @@ import static com.slava0135.pixelparty.screens.GameScreen.*;
 
 public class Fall {
     private final Array<Unit> units = new Array<>();
-    private final static float lifetime = 2;
+    private final static float lifetime = 3;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     private class Unit {
