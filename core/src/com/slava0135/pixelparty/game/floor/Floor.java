@@ -1,4 +1,4 @@
-package com.slava0135.pixelparty.world.floor;
+package com.slava0135.pixelparty.game.floor;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;

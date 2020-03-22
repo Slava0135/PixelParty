@@ -1,8 +1,8 @@
-package com.slava0135.pixelparty.world;
+package com.slava0135.pixelparty.game.world;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.slava0135.pixelparty.world.floor.Floor;
+import com.slava0135.pixelparty.game.floor.Floor;
 
 class WorldGenerator {
     public static World generateWorld() {
