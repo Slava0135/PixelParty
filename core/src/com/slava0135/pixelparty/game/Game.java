@@ -56,6 +56,7 @@ public class Game implements Disposable {
     }
 
     public void update(Vector2 click, float delta) {
+        time += delta;
         boolean isOver = time > roundLength;
         switch(stage) {
             case WAIT: break;
