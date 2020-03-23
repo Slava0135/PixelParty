@@ -148,7 +148,7 @@ public class Game implements Disposable {
         layout.setText(font, floor.currentColor.name);
         batch.begin();
         font.setColor(floor.currentColor.color);
-        font.draw(batch, floor.currentColor.name, (CAMERA_SIZE - layout.width) / 2f, CAMERA_SIZE * 0.97f);
+        font.draw(batch, floor.currentColor.name, (CAMERA_SIZE - layout.width) / 2f, CAMERA_SIZE * 0.98f);
         batch.end();
     }
 
