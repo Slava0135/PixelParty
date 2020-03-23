@@ -9,11 +9,11 @@ import java.util.Random;
 
 public enum Palette {
     GRAY(Color.GRAY, "Gray"),
-    LIME(Color.LIME, "Lime"),
+    LIME(Color.LIME, "Green"),//strange but correct
+    GREEN(Color.GREEN, "Lime"),
     RED(Color.RED, "Red"),
     ORANGE(Color.ORANGE, "Orange"),
     YELLOW(Color.YELLOW, "Yellow"),
-    GREEN(Color.GREEN, "Green"),
     PURPLE(Color.PURPLE, "Purple"),
     PINK(Color.PINK, "Pink"),
     BLUE(Color.BLUE, "Blue"),

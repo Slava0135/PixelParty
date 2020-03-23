@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,8 +17,7 @@ import com.slava0135.pixelparty.game.floor.Floor;
 import com.slava0135.pixelparty.game.world.GameWorld;
 
 import static com.slava0135.pixelparty.game.world.GameWorld.UNIT_RADIUS;
-import static com.slava0135.pixelparty.screens.GameScreen.BORDER;
-import static com.slava0135.pixelparty.screens.GameScreen.SCALE;
+import static com.slava0135.pixelparty.screens.GameScreen.*;
 
 public class Game implements Disposable {
 
@@ -33,6 +33,7 @@ public class Game implements Disposable {
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private SpriteBatch batch = new SpriteBatch();
     private BitmapFont font;
+    private GlyphLayout layout = new GlyphLayout();
 
     private float time = 0;
     private Integer score = 0;
@@ -136,9 +137,10 @@ public class Game implements Disposable {
     }
 
     private void printColor() {
+        layout.setText(font, floor.currentColor.name);
         batch.begin();
         font.setColor(floor.currentColor.color);
-        font.draw(batch, floor.currentColor.name,300, 975); //magic
+        font.draw(batch, floor.currentColor.name, (CAMERA_SIZE - layout.width) / 2f, CAMERA_SIZE * 0.97f);
         batch.end();
     }
 

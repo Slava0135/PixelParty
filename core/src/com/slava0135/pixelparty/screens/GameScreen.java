@@ -14,6 +14,7 @@ import com.slava0135.pixelparty.game.floor.Floor;
 public class GameScreen implements Screen {
     public final static int SCALE = 50;
     public final static int BORDER = SCALE * 2;
+    public final static int CAMERA_SIZE = Floor.SIZE * SCALE + 2 * BORDER;
 
     final PixelGame core;
     Stage stage;
@@ -25,7 +26,7 @@ public class GameScreen implements Screen {
     public GameScreen(final PixelGame core) {
         this.core = core;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Floor.SIZE * SCALE + 2 * BORDER, Floor.SIZE * SCALE + 2 * BORDER);
+        camera.setToOrtho(false, CAMERA_SIZE, CAMERA_SIZE);
         game = new Game(core, camera);
         stage = new Stage(new ScreenViewport());
     }
