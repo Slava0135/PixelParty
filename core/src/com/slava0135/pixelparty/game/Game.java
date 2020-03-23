@@ -58,6 +58,7 @@ public class Game implements Disposable {
     public void update(Vector2 click, float delta) {
         time += delta;
         boolean isOver = time > roundLength;
+        boolean playerIsAlive = world.update(stage, new Vector2((click.x - BORDER) / SCALE, (click.y - BORDER) / SCALE));
         switch(stage) {
             case WAIT: break;
             case RUN: {
@@ -69,7 +70,9 @@ public class Game implements Disposable {
             case BREAK: {
                 if (isOver) {
                     floor.generateFloor();
-                    score++;
+                    if (playerIsAlive) {
+                        score++;
+                    }
                     world.speedUp(speedMultiplier);
                     roundLength /= speedMultiplier;
                     world.spawnUnits(MAX_UNIT_AMOUNT - world.getBodiesPositions().size);
@@ -81,7 +84,6 @@ public class Game implements Disposable {
             time = 0;
             stage = stage.next();
         }
-        boolean playerIsAlive = world.update(stage, new Vector2((click.x - BORDER) / SCALE, (click.y - BORDER) / SCALE));
         if (!gameIsOver && !playerIsAlive) {
             gameIsOver = true;
             fall.addUnit(PixelGame.BACKGROUND, Color.BLACK, world.getPlayerPosition());
@@ -143,5 +145,6 @@ public class Game implements Disposable {
     @Override
     public void dispose() {
         world.dispose();
+        fall.dispose();
     }
 }

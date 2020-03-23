@@ -4,13 +4,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 
 import java.util.Iterator;
 
 import static com.slava0135.pixelparty.game.world.GameWorld.UNIT_RADIUS;
 import static com.slava0135.pixelparty.screens.GameScreen.*;
 
-public class Fall {
+public class Fall implements Disposable {
     private final Array<Unit> units = new Array<>();
     private final static float lifetime = 3;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -47,5 +48,10 @@ public class Fall {
                 units.removeValue(unit, true);
             }
         }
+    }
+
+    @Override
+    public void dispose() {
+        shapeRenderer.dispose();
     }
 }
