@@ -1,6 +1,7 @@
 package com.slava0135.pixelparty.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -46,7 +47,7 @@ public class Game implements Disposable {
         this.camera = camera;
 
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 100;
+        parameter.size = 2 * SCALE;
         font = core.generator.generateFont(parameter);
 
         floor = new Floor();
@@ -59,9 +60,9 @@ public class Game implements Disposable {
     public void update(Vector2 click, float delta) {
         time += delta;
         boolean isOver = time > roundLength;
-        boolean playerIsAlive = world.update(stage, new Vector2((click.x - BORDER) / SCALE, (click.y - BORDER) / SCALE));
         switch(stage) {
-            case WAIT: break;
+            case WAIT:
+                break;
             case RUN: {
                 if (isOver) {
                     floor.throwFloor();
@@ -71,7 +72,7 @@ public class Game implements Disposable {
             case BREAK: {
                 if (isOver) {
                     floor.generateFloor();
-                    if (playerIsAlive) {
+                    if (!gameIsOver) {
                         score++;
                     }
                     world.speedUp(speedMultiplier);
@@ -85,6 +86,7 @@ public class Game implements Disposable {
             time = 0;
             stage = stage.next();
         }
+        boolean playerIsAlive = world.update(stage, new Vector2((click.x - BORDER) / SCALE, (click.y - BORDER) / SCALE));
         if (!gameIsOver && !playerIsAlive) {
             gameIsOver = true;
             fall.addUnit(PixelGame.BACKGROUND, Color.BLACK, world.getPlayerPosition());
@@ -107,7 +109,13 @@ public class Game implements Disposable {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
 
-        if (stage != GameStage.WAIT) printColor();
+        if (stage != GameStage.WAIT) {
+            printColor();
+        }
+
+        if (stage == GameStage.RUN) {
+            showProgress();
+        }
 
         fall.drawAll(delta);
         floor.draw(BORDER, BORDER, SCALE, shapeRenderer);
@@ -142,6 +150,15 @@ public class Game implements Disposable {
         font.setColor(floor.currentColor.color);
         font.draw(batch, floor.currentColor.name, (CAMERA_SIZE - layout.width) / 2f, CAMERA_SIZE * 0.97f);
         batch.end();
+    }
+
+    private void showProgress() {
+        float progress = time / roundLength;
+        shapeRenderer.setColor(floor.currentColor.color);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.rect(BORDER / 4f, progress * CAMERA_SIZE / 2, SCALE, (1 - progress) * CAMERA_SIZE);
+        shapeRenderer.rect(CAMERA_SIZE - (3 * BORDER / 4f), progress * CAMERA_SIZE / 2, SCALE, (1 - progress) * CAMERA_SIZE);
+        shapeRenderer.end();
     }
 
     @Override
