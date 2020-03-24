@@ -16,7 +16,7 @@ public class DesktopLauncher {
 		glfwInit();
 		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		int width, height;
-		height = width = (int) (0.5f * vidmode.height());
+		height = width = (int) (0.9f * vidmode.height());
 		config.setWindowedMode(width, height);
 		config.setWindowSizeLimits(width, height, width, height);
 		new Lwjgl3Application(new PixelGame(), config);

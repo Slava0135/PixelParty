@@ -13,8 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.game.floor.Floor;
@@ -40,7 +38,7 @@ public class MainMenuScreen implements Screen {
         parameter.size = 100;
         title.setStyle(new Label.LabelStyle(game.generator.generateFont(parameter), Color.BLACK));
         title.setAlignment(Align.center);
-        title.setY(stage.getHeight() * 0.9f);
+        title.setY(stage.getHeight() * 0.89f);
         title.setWidth(stage.getWidth());
         stage.addActor(title);
 
