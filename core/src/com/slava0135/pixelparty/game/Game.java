@@ -49,7 +49,7 @@ public class Game implements Disposable {
         parameter.size = 2 * SCALE;
         font = core.generator.generateFont(parameter);
 
-        floor = new Floor();
+        floor = new Floor(shapeRenderer);
         floor.generateFloor();
         stage = GameStage.WAIT;
         fall = new Fall(shapeRenderer);
@@ -119,7 +119,7 @@ public class Game implements Disposable {
         }
 
         fall.drawAll(delta);
-        floor.draw(BORDER, BORDER, SCALE, shapeRenderer);
+        floor.draw(BORDER, BORDER, SCALE);
         drawWorld();
     }
 
@@ -165,6 +165,6 @@ public class Game implements Disposable {
     @Override
     public void dispose() {
         world.dispose();
-        fall.dispose();
+        shapeRenderer.dispose();
     }
 }

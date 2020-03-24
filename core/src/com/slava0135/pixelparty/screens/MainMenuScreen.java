@@ -2,7 +2,6 @@ package com.slava0135.pixelparty.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,7 +28,7 @@ public class MainMenuScreen implements Screen {
     private OrthographicCamera camera;
     private PixelGame core;
     private Stage stage;
-    private Floor floor = new Floor();
+    private Floor floor;
     private float time = 0;
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -42,6 +41,7 @@ public class MainMenuScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, CAMERA_SIZE, CAMERA_SIZE);
         stage = new Stage(new StretchViewport(CAMERA_SIZE, CAMERA_SIZE, camera));
+        floor = new Floor(shapeRenderer);
         floor.generateFloor();
 
         Label title = new Label("PIXEL PARTY", PixelGame.gameSkin);
@@ -123,7 +123,7 @@ public class MainMenuScreen implements Screen {
             batch.draw(soundoff, CAMERA_SIZE / 25f, CAMERA_SIZE / 25f, CAMERA_SIZE / 15f, CAMERA_SIZE / 15f);
             batch.end();
         }
-        floor.draw((CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2,(CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2, CAMERA_SIZE / 25, shapeRenderer);
+        floor.draw((CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2,(CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2, CAMERA_SIZE / 25);
         stage.act();
         stage.draw();
     }

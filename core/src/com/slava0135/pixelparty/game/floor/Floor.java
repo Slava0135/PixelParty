@@ -7,6 +7,11 @@ final public class Floor {
     public final static int SIZE = 16;
     private final Palette[][] grid = new Palette[SIZE][SIZE];
     public Palette currentColor = null;
+    ShapeRenderer shapeRenderer;
+
+    public Floor(ShapeRenderer shapeRenderer) {
+        this.shapeRenderer = shapeRenderer;
+    }
 
     public void generateFloor() {
         for (int y = 0; y < SIZE; y++) {
@@ -27,7 +32,7 @@ final public class Floor {
         }
     }
 
-    public void draw(float x, float y, int scale, ShapeRenderer shapeRenderer) {
+    public void draw(float x, float y, int scale) {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < Floor.SIZE; col++) {
                 Palette color = grid[row][col];
