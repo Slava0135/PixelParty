@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.game.floor.Palette;
 
+import static com.slava0135.pixelparty.PixelGame.soundIsOn;
+
 public class GameOverScreen implements Screen {
     private final int CAMERA_SIZE = 1000;
 
@@ -22,7 +24,10 @@ public class GameOverScreen implements Screen {
     GameOverScreen(final PixelGame game, Integer score) {
         this.core = game;
         stage = new Stage(new StretchViewport(CAMERA_SIZE, CAMERA_SIZE));
-        Gdx.audio.newSound(Gdx.files.internal("sound/gameover.mp3")).play();
+
+        if (soundIsOn) {
+            Gdx.audio.newSound(Gdx.files.internal("sound/gameover.mp3")).play();
+        }
 
         Label title = new Label("Your Score:\n\n" + score, PixelGame.gameSkin);
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

@@ -35,11 +35,11 @@ public class GameScreen implements Screen {
         game = new Game(core, camera);
         stage = new Stage(new ScreenViewport());
 
-        Gdx.audio.newSound(Gdx.files.internal("sound/click.mp3")).play();
         music = Gdx.audio.newMusic(Gdx.files.internal(MusicCatalog.randomMusic()));
         music.setVolume(0.2f);
         music.setLooping(true);
         if (soundIsOn) {
+            Gdx.audio.newSound(Gdx.files.internal("sound/click.mp3")).play();
             music.play();
         }
     }
