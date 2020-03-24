@@ -2,6 +2,7 @@ package com.slava0135.pixelparty.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -26,6 +27,7 @@ public class MainMenuScreen implements Screen {
     private Floor floor = new Floor();
     private float time = 0;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
+    Sound click = Gdx.audio.newSound(Gdx.files.internal("sound/click.mp3"));
 
     public MainMenuScreen(final PixelGame game) {
         this.core = game;
@@ -62,6 +64,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new GameScreen(game));
+                click.play();
             }
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {

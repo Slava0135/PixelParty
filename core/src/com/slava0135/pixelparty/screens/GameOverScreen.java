@@ -2,6 +2,7 @@ package com.slava0135.pixelparty.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -19,6 +20,7 @@ public class GameOverScreen implements Screen {
     GameOverScreen(final PixelGame game, Integer score) {
         this.core = game;
         stage = new Stage(new StretchViewport(1000, 1000));
+        Gdx.audio.newSound(Gdx.files.internal("sound/gameover.mp3")).play();
 
         Label title = new Label("Your Score:\n\n" + score, PixelGame.gameSkin);
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
