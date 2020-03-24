@@ -19,6 +19,7 @@ public class DesktopLauncher {
 		height = width = (int) (0.9f * vidmode.height());
 		config.setWindowedMode(width, height);
 		config.setWindowSizeLimits(width, height, width, height);
+		config.setWindowIcon("icon/iconWin.png", "icon/iconLinux.png", "icon/iconMac.png");
 		new Lwjgl3Application(new PixelGame(), config);
 	}
 }
