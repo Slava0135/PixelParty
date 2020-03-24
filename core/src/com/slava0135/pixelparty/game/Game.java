@@ -1,7 +1,6 @@
 package com.slava0135.pixelparty.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -53,7 +52,7 @@ public class Game implements Disposable {
         floor = new Floor();
         floor.generateFloor();
         stage = GameStage.WAIT;
-        fall = new Fall();
+        fall = new Fall(shapeRenderer);
         world = new GameWorld(floor, fall);
     }
 
@@ -108,6 +107,8 @@ public class Game implements Disposable {
         Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(camera.combined);
 
         if (stage != GameStage.WAIT) {
             printColor();

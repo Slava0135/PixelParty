@@ -72,12 +72,13 @@ public class MainMenuScreen implements Screen {
         time += delta;
         Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.update();
+        shapeRenderer.setProjectionMatrix(camera.combined);
         if (time > 0.5) {
             floor.generateFloor();
             time = 0;
         }
         floor.draw(180, 180, 40, shapeRenderer);
-        camera.update();
         stage.act();
         stage.draw();
     }

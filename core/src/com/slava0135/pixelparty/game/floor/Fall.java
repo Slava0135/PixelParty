@@ -14,7 +14,11 @@ import static com.slava0135.pixelparty.screens.GameScreen.*;
 public class Fall implements Disposable {
     private final Array<Unit> units = new Array<>();
     private final static float lifetime = 3;
-    ShapeRenderer shapeRenderer = new ShapeRenderer();
+    ShapeRenderer shapeRenderer;
+
+    public Fall(ShapeRenderer shapeRenderer) {
+        this.shapeRenderer = shapeRenderer;
+    }
 
     private class Unit {
         private float time = lifetime;
