@@ -18,6 +18,7 @@ import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.game.floor.Floor;
 
 public class MainMenuScreen implements Screen {
+    private final int CAMERA_SIZE = 1000;
 
     OrthographicCamera camera;
     private PixelGame core;
@@ -29,26 +30,34 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final PixelGame game) {
         this.core = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1000, 1000);
-        stage = new Stage(new StretchViewport(1000, 1000, camera));
+        camera.setToOrtho(false, CAMERA_SIZE, CAMERA_SIZE);
+        stage = new Stage(new StretchViewport(CAMERA_SIZE, CAMERA_SIZE, camera));
         floor.generateFloor();
 
         Label title = new Label("PIXEL PARTY", PixelGame.gameSkin);
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 100;
+        parameter.size = CAMERA_SIZE / 10;
         title.setStyle(new Label.LabelStyle(game.generator.generateFont(parameter), Color.BLACK));
         title.setAlignment(Align.center);
         title.setY(stage.getHeight() * 0.89f);
         title.setWidth(stage.getWidth());
         stage.addActor(title);
 
+        Label credits = new Label("Music by Kevin MacLeod ", PixelGame.gameSkin);
+        parameter.size = CAMERA_SIZE / 25;
+        credits.setStyle(new Label.LabelStyle(game.generator.generateFont(parameter), Color.LIGHT_GRAY));
+        credits.setAlignment(Align.right);
+        credits.setY(stage.getHeight() * 0.02f);
+        credits.setWidth(stage.getWidth());
+        stage.addActor(credits);
+
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        parameter.size = 100;
+        parameter.size = CAMERA_SIZE / 10;
         textButtonStyle.font = game.generator.generateFont(parameter);
         textButtonStyle.fontColor = Color.BLACK;
         TextButton playButton = new TextButton("Play!", textButtonStyle);
-        playButton.setWidth(stage.getHeight()/2f);
-        playButton.setPosition(stage.getWidth()/2f-playButton.getWidth()/2,stage.getHeight()/2f-playButton.getHeight()/2);
+        playButton.setWidth(stage.getHeight() / 2f);
+        playButton.setPosition(stage.getWidth() / 2f - playButton.getWidth() / 2,stage.getHeight() / 2f - playButton.getHeight() / 2);
         playButton.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -78,7 +87,7 @@ public class MainMenuScreen implements Screen {
             floor.generateFloor();
             time = 0;
         }
-        floor.draw(180, 180, 40, shapeRenderer);
+        floor.draw((CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2,(CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2, CAMERA_SIZE / 25, shapeRenderer);
         stage.act();
         stage.draw();
     }

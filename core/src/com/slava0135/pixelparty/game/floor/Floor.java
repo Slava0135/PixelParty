@@ -27,7 +27,7 @@ final public class Floor {
         }
     }
 
-    public void draw(int x, int y, int scale, ShapeRenderer shapeRenderer) {
+    public void draw(float x, float y, int scale, ShapeRenderer shapeRenderer) {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < Floor.SIZE; col++) {
                 Palette color = grid[row][col];

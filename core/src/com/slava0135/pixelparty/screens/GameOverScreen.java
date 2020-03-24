@@ -25,7 +25,7 @@ public class GameOverScreen implements Screen {
         parameter.size = 100;
         title.setStyle(new Label.LabelStyle(game.generator.generateFont(parameter), Palette.randomColor().color));
         title.setAlignment(Align.center);
-        title.setY(stage.getHeight()*0.5f);
+        title.setY(stage.getHeight() * 0.5f);
         title.setWidth(stage.getWidth());
         stage.addActor(title);
     }
