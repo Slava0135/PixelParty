@@ -27,7 +27,7 @@ public class MainMenuScreen implements Screen {
     private Floor floor = new Floor();
     private float time = 0;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
-    Sound click = Gdx.audio.newSound(Gdx.files.internal("sound/click.mp3"));
+    Sound click;
 
     public MainMenuScreen(final PixelGame game) {
         this.core = game;
@@ -35,6 +35,7 @@ public class MainMenuScreen implements Screen {
         camera.setToOrtho(false, CAMERA_SIZE, CAMERA_SIZE);
         stage = new Stage(new StretchViewport(CAMERA_SIZE, CAMERA_SIZE, camera));
         floor.generateFloor();
+        click = Gdx.audio.newSound(Gdx.files.internal("sound/click.mp3"));
 
         Label title = new Label("PIXEL PARTY", PixelGame.gameSkin);
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -65,6 +66,7 @@ public class MainMenuScreen implements Screen {
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new GameScreen(game));
                 click.play();
+                dispose();
             }
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -113,6 +115,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        click.dispose();
         stage.dispose();
     }
 }
