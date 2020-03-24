@@ -3,11 +3,13 @@ package com.slava0135.pixelparty.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.game.floor.Palette;
 
@@ -18,15 +20,15 @@ public class GameOverScreen implements Screen {
 
     GameOverScreen(final PixelGame game, Integer score) {
         this.core = game;
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new StretchViewport(1000, 1000));
 
         Label title = new Label("Your Score:\n\n" + score, PixelGame.gameSkin);
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 100;
         title.setStyle(new Label.LabelStyle(game.generator.generateFont(parameter), Palette.randomColor().color));
         title.setAlignment(Align.center);
-        title.setY(Gdx.graphics.getHeight()*0.5f);
-        title.setWidth(Gdx.graphics.getWidth());
+        title.setY(stage.getHeight()*0.5f);
+        title.setWidth(stage.getWidth());
         stage.addActor(title);
     }
 
