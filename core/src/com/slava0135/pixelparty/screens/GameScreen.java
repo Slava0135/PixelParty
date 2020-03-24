@@ -13,6 +13,8 @@ import com.slava0135.pixelparty.game.Game;
 import com.slava0135.pixelparty.game.MusicCatalog;
 import com.slava0135.pixelparty.game.floor.Floor;
 
+import static com.slava0135.pixelparty.PixelGame.soundIsOn;
+
 public class GameScreen implements Screen {
     public final static int SCALE = 50;
     public final static int BORDER = SCALE * 2;
@@ -24,7 +26,7 @@ public class GameScreen implements Screen {
     Game game;
     Music music;
 
-    private Vector3 touchPos = new Vector3();;
+    private Vector3 touchPos = new Vector3();
 
     public GameScreen(final PixelGame core) {
         this.core = core;
@@ -32,10 +34,14 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, CAMERA_SIZE, CAMERA_SIZE);
         game = new Game(core, camera);
         stage = new Stage(new ScreenViewport());
+
+        Gdx.audio.newSound(Gdx.files.internal("sound/click.mp3")).play();
         music = Gdx.audio.newMusic(Gdx.files.internal(MusicCatalog.randomMusic()));
-        music.setVolume(0.5f);
+        music.setVolume(0.2f);
         music.setLooping(true);
-        music.play();
+        if (soundIsOn) {
+            music.play();
+        }
     }
 
     @Override
