@@ -7,7 +7,7 @@ Try to run to a nearest tile of a certain color before floor falls!
 This game could not fit for some people because of bright colors and flashing images.
 Also don't play it in a dark place :)
 # Credits
-### Core
+### Framework
 ##### https://libgdx.badlogicgames.com
 ### Music
 ##### Music by Kevin MacLeod
