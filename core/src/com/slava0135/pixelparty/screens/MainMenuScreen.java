@@ -24,6 +24,7 @@ import static com.slava0135.pixelparty.PixelGame.soundIsOn;
 
 public class MainMenuScreen implements Screen {
     private final int CAMERA_SIZE = 1000;
+    private final int SOUND_BUTTON_SIZE = CAMERA_SIZE / 25;
 
     private OrthographicCamera camera;
     private PixelGame core;
@@ -82,9 +83,9 @@ public class MainMenuScreen implements Screen {
         stage.addActor(playButton);
 
         Button soundButton = new Button(new Button.ButtonStyle());
-        soundButton.setWidth(CAMERA_SIZE / 15f);
-        soundButton.setHeight(CAMERA_SIZE / 15f);
-        soundButton.setPosition(CAMERA_SIZE / 25f, CAMERA_SIZE / 25f);
+        soundButton.setWidth(SOUND_BUTTON_SIZE);
+        soundButton.setHeight(SOUND_BUTTON_SIZE);
+        soundButton.setPosition(SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
         soundButton.addListener(new InputListener() {
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -116,11 +117,11 @@ public class MainMenuScreen implements Screen {
         }
         if (soundIsOn) {
             batch.begin();
-            batch.draw(soundon, CAMERA_SIZE / 25f, CAMERA_SIZE / 25f, CAMERA_SIZE / 15f, CAMERA_SIZE / 15f);
+            batch.draw(soundon, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
             batch.end();
         } else {
             batch.begin();
-            batch.draw(soundoff, CAMERA_SIZE / 25f, CAMERA_SIZE / 25f, CAMERA_SIZE / 15f, CAMERA_SIZE / 15f);
+            batch.draw(soundoff, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
             batch.end();
         }
         floor.draw((CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2,(CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2, CAMERA_SIZE / 25);
