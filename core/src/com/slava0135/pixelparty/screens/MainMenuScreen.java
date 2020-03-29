@@ -36,8 +36,8 @@ public class MainMenuScreen implements Screen {
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     private SpriteBatch batch = new SpriteBatch();
-    private Texture soundOn = new Texture(Gdx.files.internal("soundon.png"));
-    private Texture soundOff = new Texture(Gdx.files.internal("soundoff.png"));
+    private Texture soundOn = new Texture(Gdx.files.internal("sound/soundOn.png"));
+    private Texture soundOff = new Texture(Gdx.files.internal("sound/soundOff.png"));
 
     public MainMenuScreen(final PixelGame game) {
         this.core = game;

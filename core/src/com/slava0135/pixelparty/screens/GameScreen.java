@@ -24,7 +24,7 @@ public class GameScreen implements Screen {
     GameView gameView;
     Music music;
 
-    private Vector3 touchPos = new Vector3();
+    private Vector3 touchPos = new Vector3(SIZE / 2, SIZE / 2, 0);
 
     public GameScreen(final PixelGame core) {
         this.core = core;
