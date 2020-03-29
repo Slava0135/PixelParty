@@ -11,8 +11,11 @@ public class PixelGame extends Game {
 
 	static public Skin gameSkin;
 	static public Color BACKGROUND = Color.WHITE;
-	public FreeTypeFontGenerator generator;
 	static public boolean soundIsOn = true;
+
+	public FreeTypeFontGenerator generator;
+
+	public static final float SIZE = 1000;
 
 	public void create() {
 		gameSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));

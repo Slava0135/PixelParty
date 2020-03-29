@@ -16,7 +16,7 @@ import com.slava0135.pixelparty.game.floor.Floor;
 import com.slava0135.pixelparty.game.world.GameWorld;
 
 public class GameView implements Disposable {
-    private Game game;
+    public Game game;
 
     private DropView dropView;
     private FloorView floorView;

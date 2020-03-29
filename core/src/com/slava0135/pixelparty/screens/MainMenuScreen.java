@@ -22,11 +22,11 @@ import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.game.floor.Floor;
 import com.slava0135.pixelparty.view.FloorView;
 
+import static com.slava0135.pixelparty.PixelGame.SIZE;
 import static com.slava0135.pixelparty.PixelGame.soundIsOn;
 
 public class MainMenuScreen implements Screen {
-    private final float CAMERA_SIZE = 1000;
-    private final float SOUND_BUTTON_SIZE = CAMERA_SIZE / 25;
+    private final float SOUND_BUTTON_SIZE = SIZE / 25;
 
     private OrthographicCamera camera;
     private PixelGame core;
@@ -36,26 +36,26 @@ public class MainMenuScreen implements Screen {
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     private SpriteBatch batch = new SpriteBatch();
-    private Texture soundon = new Texture(Gdx.files.internal("soundon.png"));
-    private Texture soundoff = new Texture(Gdx.files.internal("soundoff.png"));
+    private Texture soundOn = new Texture(Gdx.files.internal("soundon.png"));
+    private Texture soundOff = new Texture(Gdx.files.internal("soundoff.png"));
 
     public MainMenuScreen(final PixelGame game) {
         this.core = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, CAMERA_SIZE, CAMERA_SIZE);
-        stage = new Stage(new StretchViewport(CAMERA_SIZE, CAMERA_SIZE, camera));
+        camera.setToOrtho(false, SIZE, SIZE);
+        stage = new Stage(new StretchViewport(SIZE, SIZE, camera));
 
         floorView = new FloorView(
                 new Floor(),
-                new Vector2((CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2, (CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2),
+                new Vector2((SIZE - Floor.SIZE * SIZE / 25f) / 2, (SIZE - Floor.SIZE * SIZE / 25f) / 2),
                 shapeRenderer,
-                CAMERA_SIZE / 25
+                SIZE / 25
                 );
         floorView.floor.generateFloor();
 
         Label title = new Label("PIXEL PARTY", PixelGame.gameSkin);
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = (int) (CAMERA_SIZE / 10);
+        parameter.size = (int) (SIZE / 10);
         title.setStyle(new Label.LabelStyle(game.generator.generateFont(parameter), Color.BLACK));
         title.setAlignment(Align.center);
         title.setY(stage.getHeight() * 0.89f);
@@ -63,7 +63,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(title);
 
         Label credits = new Label("Music by Kevin MacLeod ", PixelGame.gameSkin);
-        parameter.size = (int) (CAMERA_SIZE / 25);
+        parameter.size = (int) (SIZE / 25);
         credits.setStyle(new Label.LabelStyle(game.generator.generateFont(parameter), Color.LIGHT_GRAY));
         credits.setAlignment(Align.right);
         credits.setY(stage.getHeight() * 0.02f);
@@ -71,7 +71,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(credits);
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        parameter.size = (int) (CAMERA_SIZE / 10);
+        parameter.size = (int) (SIZE / 10);
         textButtonStyle.font = game.generator.generateFont(parameter);
         textButtonStyle.fontColor = Color.BLACK;
         TextButton playButton = new TextButton("Play!", textButtonStyle);
@@ -125,11 +125,11 @@ public class MainMenuScreen implements Screen {
         }
         if (soundIsOn) {
             batch.begin();
-            batch.draw(soundon, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
+            batch.draw(soundOn, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
             batch.end();
         } else {
             batch.begin();
-            batch.draw(soundoff, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
+            batch.draw(soundOff, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
             batch.end();
         }
         floorView.draw();
@@ -158,7 +158,7 @@ public class MainMenuScreen implements Screen {
         stage.dispose();
         shapeRenderer.dispose();
         batch.dispose();
-        soundon.dispose();
-        soundoff.dispose();
+        soundOn.dispose();
+        soundOff.dispose();
     }
 }
