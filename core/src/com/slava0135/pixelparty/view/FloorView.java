@@ -7,6 +7,7 @@ import com.slava0135.pixelparty.game.floor.Palette;
 
 public class FloorView {
     public Floor floor;
+
     private ShapeRenderer shapeRenderer;
 
     private final Vector2 POSITION;

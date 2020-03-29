@@ -92,6 +92,8 @@ public class GameView implements Disposable {
 
     @Override
     public void dispose() {
+        font.dispose();
+        batch.dispose();
         shapeRenderer.dispose();
     }
 }
