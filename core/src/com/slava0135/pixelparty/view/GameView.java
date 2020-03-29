@@ -65,6 +65,10 @@ public class GameView implements Disposable {
         shapeRenderer.end();
     }
 
+    public void update(Vector2 click, float delta) {
+        game.update(new Vector2((click.x - BORDER) / SCALE, (click.y - BORDER) / SCALE), delta);
+    }
+
     public void draw() {
         Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

@@ -18,8 +18,8 @@ public class Drop {
         units.add(new DropUnit(color, borderColor, position));
     }
 
-    public DropUnit[] getUnits() {
-        return units.items.clone();
+    public Array<DropUnit> getUnits() {
+        return units;
     }
 
     public void update(float delta) {

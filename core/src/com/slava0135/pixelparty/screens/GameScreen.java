@@ -54,7 +54,8 @@ public class GameScreen implements Screen {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
         }
-        gameView.game.update(new Vector2(touchPos.x, touchPos.y), delta);
+        gameView.update(new Vector2(touchPos.x, touchPos.y), delta);
+        gameView.draw();
         if (gameView.game.isFinished()) {
             core.setScreen(new GameOverScreen(core, gameView.game.getScore()));
             dispose();
