@@ -26,9 +26,9 @@ public class GameWorldView {
     private void drawBody(Vector2 position, Color color, Color borderColor) {
         shapeRenderer.setColor(borderColor);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.circle((POSITION.x + position.x) * SCALE, (POSITION.y + position.y) * SCALE, RADIUS);
+        shapeRenderer.circle((POSITION.x + position.x) * SCALE, (POSITION.y + position.y) * SCALE, RADIUS * SCALE);
         shapeRenderer.setColor(color);
-        shapeRenderer.circle((POSITION.x + position.x) * SCALE, (POSITION.y + position.y) * SCALE, RADIUS * 0.5f);
+        shapeRenderer.circle((POSITION.x + position.x) * SCALE, (POSITION.y + position.y) * SCALE, RADIUS * SCALE * 0.5f);
         shapeRenderer.end();
     }
 

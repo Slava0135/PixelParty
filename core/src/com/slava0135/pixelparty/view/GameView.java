@@ -43,9 +43,9 @@ public class GameView implements Disposable {
         this.font = font;
 
         this.game = game;
-        dropView = new DropView(game.drop, new Vector2(0, 0), shapeRenderer, SCALE, RADIUS);
+        dropView = new DropView(game.drop, new Vector2(BORDER / SCALE, BORDER / SCALE), shapeRenderer, SCALE, RADIUS);
         floorView = new FloorView(game.floor, new Vector2(BORDER / SCALE, BORDER / SCALE), shapeRenderer, SCALE);
-        worldView = new GameWorldView(game.world, new Vector2(0, 0), shapeRenderer, SCALE, RADIUS);
+        worldView = new GameWorldView(game.world, new Vector2(BORDER / SCALE, BORDER / SCALE), shapeRenderer, SCALE, RADIUS);
     }
 
     private void printColor() {
