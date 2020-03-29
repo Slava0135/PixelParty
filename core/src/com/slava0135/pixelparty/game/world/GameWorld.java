@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.slava0135.pixelparty.game.GameStage;
-import com.slava0135.pixelparty.game.floor.Fall;
+import com.slava0135.pixelparty.game.drop.Drop;
 import com.slava0135.pixelparty.game.floor.Floor;
 
 import java.util.Iterator;
@@ -18,7 +18,7 @@ import static com.slava0135.pixelparty.game.world.WorldGenerator.generateWorld;
 public class GameWorld implements Disposable {
     private World world;
     private Floor floor;
-    private Fall fall;
+    private Drop drop;
 
     public final static float UNIT_SCALE = 0.3f;
     public final static float UNIT_RADIUS = UNIT_SCALE;
@@ -34,11 +34,11 @@ public class GameWorld implements Disposable {
     private final Array<Body> bodies = new Array<>();
     private Body player;
 
-    public GameWorld(Floor floor, Fall fall) {
+    public GameWorld(Floor floor, Drop drop) {
         world = generateWorld();
         fixture = getCircleFixture();
         this.floor = floor;
-        this.fall = fall;
+        this.drop = drop;
         spawnPlayer();
         spawnUnits(MAX_UNIT_AMOUNT);
     }
@@ -180,7 +180,7 @@ public class GameWorld implements Disposable {
         for (Iterator<Body> iter = bodies.iterator(); iter.hasNext(); ) {
             Body body = iter.next();
             if (isDead(body)) {
-                fall.addUnit(Color.BLACK, Color.BLACK, new Vector2(body.getPosition()));
+                drop.addUnit(Color.BLACK, Color.BLACK, new Vector2(body.getPosition()));
                 world.destroyBody(body);
                 bodies.removeValue(body, true);
             }

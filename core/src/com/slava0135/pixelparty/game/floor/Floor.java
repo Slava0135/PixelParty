@@ -1,16 +1,14 @@
 package com.slava0135.pixelparty.game.floor;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 final public class Floor {
     public final static int SIZE = 16;
     private final Palette[][] grid = new Palette[SIZE][SIZE];
     public Palette currentColor = null;
-    ShapeRenderer shapeRenderer;
 
-    public Floor(ShapeRenderer shapeRenderer) {
-        this.shapeRenderer = shapeRenderer;
+    public Palette[][] getGrid() {
+        return grid.clone();
     }
 
     public void generateFloor() {
@@ -27,20 +25,6 @@ final public class Floor {
             for (int x = 0; x < SIZE; x++) {
                 if (grid[y][x] != currentColor) {
                     grid[y][x] = null;
-                }
-            }
-        }
-    }
-
-    public void draw(float x, float y, int scale) {
-        for (int row = 0; row < SIZE; row++) {
-            for (int col = 0; col < Floor.SIZE; col++) {
-                Palette color = grid[row][col];
-                if (color != null) {
-                    shapeRenderer.setColor(color.color);
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                    shapeRenderer.rect(x + col * scale, y + row * scale, scale, scale);
-                    shapeRenderer.end();
                 }
             }
         }

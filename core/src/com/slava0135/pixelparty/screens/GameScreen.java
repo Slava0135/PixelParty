@@ -16,9 +16,7 @@ import com.slava0135.pixelparty.game.floor.Floor;
 import static com.slava0135.pixelparty.PixelGame.soundIsOn;
 
 public class GameScreen implements Screen {
-    public final static int SCALE = 50;
-    public final static int BORDER = SCALE * 2;
-    public final static int CAMERA_SIZE = Floor.SIZE * SCALE + 2 * BORDER;
+    public final static float SIZE = 1000;
 
     final PixelGame core;
     Stage stage;
@@ -31,8 +29,8 @@ public class GameScreen implements Screen {
     public GameScreen(final PixelGame core) {
         this.core = core;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, CAMERA_SIZE, CAMERA_SIZE);
-        game = new Game(core, camera);
+        camera.setToOrtho(false, SIZE, SIZE);
+        game = new Game();
         stage = new Stage(new ScreenViewport());
 
         music = Gdx.audio.newMusic(Gdx.files.internal(MusicCatalog.randomMusic()));
@@ -53,7 +51,6 @@ public class GameScreen implements Screen {
             camera.unproject(touchPos);
         }
         game.update(new Vector2(touchPos.x, touchPos.y), delta);
-        game.draw(delta);
         if (game.isFinished()) {
             core.setScreen(new GameOverScreen(core, game.getScore()));
             dispose();

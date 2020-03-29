@@ -1,59 +1,38 @@
 package com.slava0135.pixelparty.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.slava0135.pixelparty.PixelGame;
-import com.slava0135.pixelparty.game.floor.Fall;
+import com.slava0135.pixelparty.game.drop.Drop;
 import com.slava0135.pixelparty.game.floor.Floor;
 import com.slava0135.pixelparty.game.world.GameWorld;
-
-import static com.slava0135.pixelparty.game.world.GameWorld.UNIT_RADIUS;
-import static com.slava0135.pixelparty.screens.GameScreen.*;
 
 public class Game implements Disposable {
 
     public final static int MAX_UNIT_AMOUNT = 50;
     private final static float FINISHING_TIME = 3;
 
-    private GameWorld world;
-    private GameStage stage;
-    private Fall fall;
-    private Floor floor;
+    public GameStage stage;
 
-    private OrthographicCamera camera;
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
-    private SpriteBatch batch = new SpriteBatch();
-    private BitmapFont font;
-    private GlyphLayout layout = new GlyphLayout();
+    public GameWorld world;
+    public Drop drop;
+    public Floor floor;
+
+    public boolean gameIsOver = false;
 
     private float time = 0;
     private Integer score = 0;
     private float speedMultiplier = 1.05f;
-    private boolean gameIsOver = false;
     private float roundLength = 3;
     private float timeSinceDeath = 0;
 
-    public Game(PixelGame core, OrthographicCamera camera) {
-        this.camera = camera;
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 2 * SCALE;
-        font = core.generator.generateFont(parameter);
-
-        floor = new Floor(shapeRenderer);
+    public Game() {
+        floor = new Floor();
         floor.generateFloor();
+        drop = new Drop();
+        world = new GameWorld(floor, drop);
         stage = GameStage.WAIT;
-        fall = new Fall(shapeRenderer);
-        world = new GameWorld(floor, fall);
     }
 
     public void update(Vector2 click, float delta) {
@@ -76,20 +55,22 @@ public class Game implements Disposable {
                     }
                     world.speedUp(speedMultiplier);
                     roundLength /= speedMultiplier;
-                    //world.spawnUnits(MAX_UNIT_AMOUNT - world.getBodiesPositions().size);
                 }
                 break;
             }
         }
+
         if (isOver) {
             time = 0;
             stage = stage.next();
         }
-        boolean playerIsAlive = world.update(stage, new Vector2((click.x - BORDER) / SCALE, (click.y - BORDER) / SCALE));
+
+        boolean playerIsAlive = world.update(stage, new Vector2(click.x, click.y));
         if (!gameIsOver && !playerIsAlive) {
             gameIsOver = true;
-            fall.addUnit(PixelGame.BACKGROUND, Color.BLACK, world.getPlayerPosition());
+            drop.addUnit(PixelGame.BACKGROUND, Color.BLACK, world.getPlayerPosition());
         }
+
         if (gameIsOver) {
             timeSinceDeath += delta;
         }
@@ -103,68 +84,12 @@ public class Game implements Disposable {
         return score;
     }
 
-    public void draw(float delta) {
-        Gdx.gl.glClearColor(PixelGame.BACKGROUND.r, PixelGame.BACKGROUND.g, PixelGame.BACKGROUND.b, PixelGame.BACKGROUND.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        batch.setProjectionMatrix(camera.combined);
-
-        if (stage != GameStage.WAIT) {
-            printColor();
-        }
-
-        if (stage == GameStage.RUN) {
-            showProgress();
-        }
-
-        fall.drawAll(delta);
-        floor.draw(BORDER, BORDER, SCALE);
-        drawWorld();
-    }
-
-    private void drawWorld() {
-        for (Vector2 position: world.getBodiesPositions()) {
-            drawBody(position, Color.BLACK, Color.BLACK);
-        }
-        if (!gameIsOver) {
-            if (stage == GameStage.WAIT) {
-                drawBody(world.getPlayerPosition(), Color.WHITE, Color.BLACK);
-            } else {
-                drawBody(world.getPlayerPosition(), floor.currentColor.color, Color.BLACK);
-            }
-        }
-    }
-
-    private void drawBody(Vector2 position, Color color, Color borderColor) {
-        shapeRenderer.setColor(borderColor);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.circle(position.x * SCALE + BORDER, position.y * SCALE + BORDER, UNIT_RADIUS * SCALE);
-        shapeRenderer.setColor(color);
-        shapeRenderer.circle(position.x * SCALE + BORDER, position.y * SCALE + BORDER, UNIT_RADIUS * SCALE * 0.5f);
-        shapeRenderer.end();
-    }
-
-    private void printColor() {
-        layout.setText(font, floor.currentColor.name);
-        batch.begin();
-        font.setColor(floor.currentColor.color);
-        font.draw(batch, floor.currentColor.name, (CAMERA_SIZE - layout.width) / 2f, CAMERA_SIZE * 0.98f);
-        batch.end();
-    }
-
-    private void showProgress() {
-        float progress = time / roundLength;
-        shapeRenderer.setColor(floor.currentColor.color);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.rect(BORDER / 4f, progress * CAMERA_SIZE / 2, SCALE, (1 - progress) * CAMERA_SIZE);
-        shapeRenderer.rect(CAMERA_SIZE - (3 * BORDER / 4f), progress * CAMERA_SIZE / 2, SCALE, (1 - progress) * CAMERA_SIZE);
-        shapeRenderer.end();
+    public float getProgress() {
+        return time / roundLength;
     }
 
     @Override
     public void dispose() {
         world.dispose();
-        shapeRenderer.dispose();
     }
 }

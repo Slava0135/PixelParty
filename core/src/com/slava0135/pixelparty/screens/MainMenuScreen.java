@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -19,17 +20,18 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.slava0135.pixelparty.PixelGame;
 import com.slava0135.pixelparty.game.floor.Floor;
+import com.slava0135.pixelparty.view.FloorView;
 
 import static com.slava0135.pixelparty.PixelGame.soundIsOn;
 
 public class MainMenuScreen implements Screen {
-    private final int CAMERA_SIZE = 1000;
-    private final int SOUND_BUTTON_SIZE = CAMERA_SIZE / 25;
+    private final float CAMERA_SIZE = 1000;
+    private final float SOUND_BUTTON_SIZE = CAMERA_SIZE / 25;
 
     private OrthographicCamera camera;
     private PixelGame core;
     private Stage stage;
-    private Floor floor;
+    private FloorView floorView;
     private float time = 0;
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -42,12 +44,18 @@ public class MainMenuScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, CAMERA_SIZE, CAMERA_SIZE);
         stage = new Stage(new StretchViewport(CAMERA_SIZE, CAMERA_SIZE, camera));
-        floor = new Floor(shapeRenderer);
-        floor.generateFloor();
+
+        floorView = new FloorView(
+                new Floor(),
+                new Vector2((CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2, (CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2),
+                shapeRenderer,
+                CAMERA_SIZE / 25
+                );
+        floorView.floor.generateFloor();
 
         Label title = new Label("PIXEL PARTY", PixelGame.gameSkin);
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = CAMERA_SIZE / 10;
+        parameter.size = (int) (CAMERA_SIZE / 10);
         title.setStyle(new Label.LabelStyle(game.generator.generateFont(parameter), Color.BLACK));
         title.setAlignment(Align.center);
         title.setY(stage.getHeight() * 0.89f);
@@ -55,7 +63,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(title);
 
         Label credits = new Label("Music by Kevin MacLeod ", PixelGame.gameSkin);
-        parameter.size = CAMERA_SIZE / 25;
+        parameter.size = (int) (CAMERA_SIZE / 25);
         credits.setStyle(new Label.LabelStyle(game.generator.generateFont(parameter), Color.LIGHT_GRAY));
         credits.setAlignment(Align.right);
         credits.setY(stage.getHeight() * 0.02f);
@@ -63,7 +71,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(credits);
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        parameter.size = CAMERA_SIZE / 10;
+        parameter.size = (int) (CAMERA_SIZE / 10);
         textButtonStyle.font = game.generator.generateFont(parameter);
         textButtonStyle.fontColor = Color.BLACK;
         TextButton playButton = new TextButton("Play!", textButtonStyle);
@@ -112,7 +120,7 @@ public class MainMenuScreen implements Screen {
         camera.update();
         shapeRenderer.setProjectionMatrix(camera.combined);
         if (time > 0.5) {
-            floor.generateFloor();
+            floorView.floor.generateFloor();
             time = 0;
         }
         if (soundIsOn) {
@@ -124,7 +132,7 @@ public class MainMenuScreen implements Screen {
             batch.draw(soundoff, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
             batch.end();
         }
-        floor.draw((CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2,(CAMERA_SIZE - Floor.SIZE * CAMERA_SIZE / 25f) / 2, CAMERA_SIZE / 25);
+        floorView.draw();
         stage.act();
         stage.draw();
     }
