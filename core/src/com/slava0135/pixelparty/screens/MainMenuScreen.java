@@ -26,7 +26,7 @@ import static com.slava0135.pixelparty.PixelGame.SIZE;
 import static com.slava0135.pixelparty.PixelGame.soundIsOn;
 
 public class MainMenuScreen implements Screen {
-    private final float SOUND_BUTTON_SIZE = SIZE / 25;
+    private final float SCALE = SIZE / 25;
 
     private OrthographicCamera camera;
     private PixelGame core;
@@ -47,9 +47,9 @@ public class MainMenuScreen implements Screen {
 
         floorView = new FloorView(
                 new Floor(),
-                new Vector2((SIZE - Floor.SIZE * SIZE / 25f) / 2, (SIZE - Floor.SIZE * SIZE / 25f) / 2),
+                new Vector2((SIZE - Floor.SIZE * SCALE) / 2 / SCALE, (SIZE - Floor.SIZE * SCALE) / 2 / SCALE),
                 shapeRenderer,
-                SIZE / 25
+                SCALE
                 );
         floorView.floor.generateFloor();
 
@@ -91,9 +91,9 @@ public class MainMenuScreen implements Screen {
         stage.addActor(playButton);
 
         Button soundButton = new Button(new Button.ButtonStyle());
-        soundButton.setWidth(SOUND_BUTTON_SIZE);
-        soundButton.setHeight(SOUND_BUTTON_SIZE);
-        soundButton.setPosition(SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
+        soundButton.setWidth(SCALE);
+        soundButton.setHeight(SCALE);
+        soundButton.setPosition(SCALE, SCALE);
         soundButton.addListener(new InputListener() {
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -125,11 +125,11 @@ public class MainMenuScreen implements Screen {
         }
         if (soundIsOn) {
             batch.begin();
-            batch.draw(soundOn, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
+            batch.draw(soundOn, SCALE, SCALE, SCALE, SCALE);
             batch.end();
         } else {
             batch.begin();
-            batch.draw(soundOff, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE, SOUND_BUTTON_SIZE);
+            batch.draw(soundOff, SCALE, SCALE, SCALE, SCALE);
             batch.end();
         }
         floorView.draw();

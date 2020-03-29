@@ -27,7 +27,7 @@ public class FloorView {
                 if (color != null) {
                     shapeRenderer.setColor(color.color);
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                    shapeRenderer.rect(POSITION.x + col * SCALE, POSITION.y + row * SCALE, SCALE, SCALE);
+                    shapeRenderer.rect((POSITION.x + col) * SCALE, (POSITION.y + row) * SCALE, SCALE, SCALE);
                     shapeRenderer.end();
                 }
             }

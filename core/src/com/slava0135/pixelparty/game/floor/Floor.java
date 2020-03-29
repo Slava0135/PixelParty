@@ -8,7 +8,7 @@ final public class Floor {
     public Palette currentColor = null;
 
     public Palette[][] getGrid() {
-        return grid.clone();
+        return grid;
     }
 
     public void generateFloor() {

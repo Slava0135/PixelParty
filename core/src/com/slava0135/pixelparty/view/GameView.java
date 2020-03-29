@@ -36,7 +36,7 @@ public class GameView implements Disposable {
     public GameView(Game game, OrthographicCamera camera, BitmapFont font, float scale, float size) {
         this.SCALE = scale;
         this.SIZE = size;
-        this.BORDER = SCALE * (SIZE - Floor.SIZE) / 2;
+        this.BORDER = (SIZE - Floor.SIZE * SCALE) / 2;
         this.RADIUS = GameWorld.UNIT_RADIUS;
 
         this.camera = camera;
@@ -44,7 +44,7 @@ public class GameView implements Disposable {
 
         this.game = game;
         dropView = new DropView(game.drop, new Vector2(0, 0), shapeRenderer, SCALE, RADIUS);
-        floorView = new FloorView(game.floor, new Vector2(BORDER, BORDER), shapeRenderer, SCALE);
+        floorView = new FloorView(game.floor, new Vector2(BORDER / SCALE, BORDER / SCALE), shapeRenderer, SCALE);
         worldView = new GameWorldView(game.world, new Vector2(0, 0), shapeRenderer, SCALE, RADIUS);
     }
 
