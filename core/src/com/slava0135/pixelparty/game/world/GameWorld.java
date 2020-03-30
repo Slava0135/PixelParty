@@ -31,11 +31,14 @@ public class GameWorld implements Disposable {
     private Random random = new Random();
 
     private final FixtureDef fixture;
+    private final CircleShape circle;
     private final Array<Body> bodies = new Array<>();
     private Body player;
 
     public GameWorld(Floor floor, Drop drop) {
         world = generateWorld();
+        circle = new CircleShape();
+        circle.setRadius(UNIT_RADIUS);
         fixture = getCircleFixture();
         this.floor = floor;
         this.drop = drop;
@@ -84,14 +87,11 @@ public class GameWorld implements Disposable {
     }
 
     private FixtureDef getCircleFixture() {
-        CircleShape circle = new CircleShape();
-        circle.setRadius(UNIT_RADIUS);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0;
         fixtureDef.restitution = 1f;
-        circle.dispose();
         return fixtureDef;
     }
 
@@ -194,6 +194,7 @@ public class GameWorld implements Disposable {
 
     @Override
     public void dispose() {
+        circle.dispose();
         world.dispose();
     }
 }
