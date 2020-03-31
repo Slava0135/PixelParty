@@ -177,8 +177,7 @@ public class GameWorld implements Disposable {
     }
 
     private void eliminate() {
-        for (Iterator<Body> iter = bodies.iterator(); iter.hasNext(); ) {
-            Body body = iter.next();
+        for (Body body : bodies) {
             if (isDead(body)) {
                 drop.addUnit(Color.BLACK, Color.BLACK, new Vector2(body.getPosition()));
                 world.destroyBody(body);
