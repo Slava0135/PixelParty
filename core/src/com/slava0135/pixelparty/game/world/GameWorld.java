@@ -9,10 +9,8 @@ import com.slava0135.pixelparty.game.GameStage;
 import com.slava0135.pixelparty.game.drop.Drop;
 import com.slava0135.pixelparty.game.floor.Floor;
 
-import java.util.Iterator;
 import java.util.Random;
 
-import static com.slava0135.pixelparty.game.Game.MAX_UNIT_AMOUNT;
 import static com.slava0135.pixelparty.game.world.WorldGenerator.generateWorld;
 
 public class GameWorld implements Disposable {
@@ -35,7 +33,7 @@ public class GameWorld implements Disposable {
     private final Array<Body> bodies = new Array<>();
     private Body player;
 
-    public GameWorld(Floor floor, Drop drop) {
+    public GameWorld(Floor floor, Drop drop, int units) {
         world = generateWorld();
         circle = new CircleShape();
         circle.setRadius(UNIT_RADIUS);
@@ -43,7 +41,7 @@ public class GameWorld implements Disposable {
         this.floor = floor;
         this.drop = drop;
         spawnPlayer();
-        spawnUnits(MAX_UNIT_AMOUNT);
+        spawnUnits(units);
     }
 
     public boolean update(GameStage stage, Vector2 click) {

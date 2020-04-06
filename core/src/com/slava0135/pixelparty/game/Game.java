@@ -10,7 +10,7 @@ import com.slava0135.pixelparty.game.world.GameWorld;
 
 public class Game implements Disposable {
 
-    public final static int MAX_UNIT_AMOUNT = 50;
+    private final static int MAX_UNIT_AMOUNT = 50;
     private final static float FINISHING_TIME = 3;
 
     public GameStage stage;
@@ -31,7 +31,7 @@ public class Game implements Disposable {
         floor = new Floor();
         floor.generateFloor();
         drop = new Drop();
-        world = new GameWorld(floor, drop);
+        world = new GameWorld(floor, drop, MAX_UNIT_AMOUNT);
         stage = GameStage.WAIT;
     }
 

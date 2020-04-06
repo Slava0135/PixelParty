@@ -2,8 +2,6 @@ package com.slava0135.pixelparty.game.floor;
 
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Arrays;
-
 final public class Floor {
     public final static int SIZE = 16;
     private final Palette[][] grid = new Palette[SIZE][SIZE];
