@@ -1,7 +1,6 @@
 package game;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.slava0135.pixelparty.game.Game;
 import com.slava0135.pixelparty.game.GameStage;
 import org.junit.jupiter.api.Test;
@@ -29,10 +28,7 @@ public class GameTest {
             game.update(Vector2.Zero, 1.01f * time);
             assertEquals(GameStage.WAIT, game.stage);
 
-            Field score = game.getClass().getDeclaredField("score");
-            score.setAccessible(true);
-            int points = (int) score.get(game);
-            assertEquals(points == 0, game.gameIsOver);
+            assertEquals(game.getScore() == 0, game.gameIsOver);
 
             game.dispose();
         }
