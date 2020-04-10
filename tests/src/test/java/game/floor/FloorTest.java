@@ -20,4 +20,11 @@ public class FloorTest {
             }
         }
     }
+
+    @Test
+    public void isOnTile() {
+        Floor floor = new Floor();
+        floor.generateFloor();
+        assertTrue(floor.isOnTile(SIZE, SIZE, SIZE));
+    }
 }
